@@ -1,9 +1,9 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_router_demo/home/home.dart';
 import 'package:flutter_router_demo/main.dart';
 import 'package:flutter_router_demo/pages/detail.dart';
 import 'package:flutter_router_demo/pages/game.dart';
-import 'package:flutter_router_demo/pages/home.dart';
 import 'package:flutter_router_demo/pages/setting.dart';
 import 'package:flutter_router_demo/pages/video.dart';
 
@@ -43,7 +43,7 @@ Handler get _mainHandler => Handler(handlerFunc: (_, Map<String, List<String>> p
     });
 
 Handler get _homeHandler => Handler(handlerFunc: (_, Map<String, List<String>> parameters) {
-      return const HomePage();
+      return HomePage();
     });
 
 Handler get _gameHandler => Handler(handlerFunc: (_, Map<String, List<String>> parameters) {

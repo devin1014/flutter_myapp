@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_router_demo/home/home.dart';
 import 'package:flutter_router_demo/pages/game.dart';
-import 'package:flutter_router_demo/pages/home.dart';
 import 'package:flutter_router_demo/pages/setting.dart';
 import 'package:flutter_router_demo/pages/video.dart';
 import 'package:flutter_router_demo/routers.dart';
@@ -36,7 +36,7 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   _MainPageState();
 
-  final List<Widget> pages = const [HomePage(), GamePage(), VideoPage(), SettingPage()];
+  final List<Widget> pages = [HomePage(), const GamePage(), const VideoPage(), const SettingPage()];
 
   int _selectedIndex = 0;
 
