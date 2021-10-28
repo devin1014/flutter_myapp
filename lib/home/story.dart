@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_router_demo/home/bean.dart';
+import 'package:flutter_router_demo/home/model.dart';
 import 'package:flutter_router_demo/util/image.dart';
 
 class HomeStoryPage extends StatefulWidget {
@@ -14,19 +14,19 @@ class HomeStoryPage extends StatefulWidget {
 
 class _HomeStoryPageState extends State<HomeStoryPage> {
   static const edgeHorPadding = 12.0;
-  List<HomeStory>? _storyList;
+  List<Story>? _storyList;
 
   @override
   void initState() {
     super.initState();
-    loadData("data/story_167.json");
+    _loadData("data/story_167.json");
   }
 
-  void loadData(String path) async {
+  void _loadData(String path) async {
     await Future.delayed(const Duration(microseconds: 3500), () {});
     String data = await rootBundle.loadString(path);
     List<dynamic> result = json.decode(data);
-    final mapped = result.map((e) => HomeStory.fromJson(e));
+    final mapped = result.map((e) => Story.fromJson(e));
     setState(() {
       _storyList = mapped.toList();
     });
