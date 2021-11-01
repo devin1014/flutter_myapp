@@ -2,7 +2,7 @@ import 'package:logger/logger.dart';
 
 class Log {
   static final _logger = Logger(
-    printer: PrettyPrinter(methodCount: 0, errorMethodCount: 5, printTime: true),
+    printer: PrettyPrinter(methodCount: 0, errorMethodCount: 5, printTime: false),
   );
 
   static v(dynamic message) {

@@ -2,8 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_router_demo/home/model.dart' as home;
-import 'package:flutter_router_demo/util/logger.dart';
+import 'package:flutter_router_demo/home/model/model.dart' as home;
 
 class HomeHeroPage extends StatefulWidget {
   const HomeHeroPage({Key? key}) : super(key: key);
@@ -29,7 +28,7 @@ class _HomeHeroPageState extends State<HomeHeroPage> {
     final list = parse(data);
     setState(() {
       _list = list;
-      Log.i("hero: ${_list!.map((e) => e.image).toList()}");
+      // Log.i("hero: ${_list!.map((e) => e.image).toList()}");
     });
   }
 

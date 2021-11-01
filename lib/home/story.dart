@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_router_demo/home/model.dart';
+import 'package:flutter_router_demo/home/model/model.dart';
 import 'package:flutter_router_demo/util/image.dart';
 
 class HomeStoryPage extends StatefulWidget {
