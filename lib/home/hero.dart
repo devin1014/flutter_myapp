@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_router_demo/home/model/model.dart' as home;
@@ -58,17 +59,9 @@ class _HomeHeroPageState extends State<HomeHeroPage> {
               //physics: const PageScrollPhysics(parent: BouncingScrollPhysics()),
               itemCount: list.length,
               itemBuilder: (context, index) {
-                return Image.network(
+                return ExtendedImage.network(
                   list[index].image,
                   fit: BoxFit.cover,
-                  frameBuilder: (context, child, frame, loaded) {
-                    if (loaded) return child;
-                    return const DecoratedBox(decoration: BoxDecoration(color: Colors.grey), child: SizedBox.expand());
-                  },
-                  errorBuilder: (context, error, stack) {
-                    return const DecoratedBox(
-                        decoration: BoxDecoration(color: Colors.blueGrey), child: SizedBox.expand());
-                  },
                 );
               }));
     }

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_router_demo/home/model/model.dart';
@@ -76,17 +77,9 @@ class _HomeStoryPageState extends State<HomeStoryPage> {
               child: Stack(
                 alignment: Alignment.bottomCenter,
                 children: [
-                  Image.network(
+                  ExtendedImage.network(
                     ImageUtil.getStory(_storyList![index].image),
                     fit: BoxFit.cover,
-                    frameBuilder: (context, child, frame, loaded) {
-                      return const DecoratedBox(
-                          decoration: BoxDecoration(color: Colors.grey), child: SizedBox.expand());
-                    },
-                    errorBuilder: (context, error, stack) {
-                      return const DecoratedBox(
-                          decoration: BoxDecoration(color: Colors.blueGrey), child: SizedBox.expand());
-                    },
                   ),
                   Container(
                     color: Colors.yellow,
