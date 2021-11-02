@@ -35,24 +35,11 @@ class _HomeStoryPageState extends State<HomeStoryPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Container(
-          width: double.infinity,
-          height: 40,
-          alignment: Alignment.centerLeft,
-          child: const Padding(
-            padding: EdgeInsets.symmetric(horizontal: edgeHorPadding),
-            child: Text("Story", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-          ),
-        ),
-        Container(
-          width: double.infinity,
-          height: 164,
-          alignment: Alignment.centerLeft,
-          child: _buildContent(),
-        )
-      ],
+    return Container(
+      width: double.infinity,
+      height: 164,
+      alignment: Alignment.centerLeft,
+      child: _buildContent(),
     );
   }
 
@@ -77,10 +64,7 @@ class _HomeStoryPageState extends State<HomeStoryPage> {
               child: Stack(
                 alignment: Alignment.bottomCenter,
                 children: [
-                  ExtendedImage.network(
-                    ImageUtil.getStory(_storyList![index].image),
-                    fit: BoxFit.cover,
-                  ),
+                  ExtendedImage.network(ImageUtil.getStory(_storyList![index].image)),
                   Container(
                     color: Colors.yellow,
                     width: 124,

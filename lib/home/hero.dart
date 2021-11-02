@@ -1,9 +1,8 @@
-import 'dart:convert';
-
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_router_demo/home/model/model.dart' as home;
+import 'package:flutter_router_demo/util/parser.dart';
+import 'package:flutter_router_demo/widget/loading.dart';
 
 class HomeHeroPage extends StatefulWidget {
   const HomeHeroPage({Key? key}) : super(key: key);
@@ -24,19 +23,11 @@ class _HomeHeroPageState extends State<HomeHeroPage> {
   }
 
   void _loadData(String path) async {
-    await Future.delayed(const Duration(microseconds: 3500), () {});
-    String data = await rootBundle.loadString(path);
-    final list = parse(data);
+    List<dynamic> result = await Parser.parseAssets(path);
+    List<home.Hero> list = result.map((e) => home.Hero.fromJson(e)).toList();
     setState(() {
       _list = list;
-      // Log.i("hero: ${_list!.map((e) => e.image).toList()}");
     });
-  }
-
-  static List<home.Hero> parse(String data) {
-    Map<String, dynamic> root = json.decode(data);
-    List<dynamic> results = root["results"];
-    return results.map((e) => home.Hero.fromJson(e)).toList();
   }
 
   @override
@@ -50,20 +41,15 @@ class _HomeHeroPageState extends State<HomeHeroPage> {
 
   Widget _buildContent() {
     if (_list == null) {
-      return const Center(child: CircularProgressIndicator());
+      return const LoadingPage.fixHeight(height: 196);
     } else {
       List<home.Hero> list = _list!;
       return AspectRatio(
           aspectRatio: HomeHeroPage.ratio_16_9,
           child: PageView.builder(
-              //physics: const PageScrollPhysics(parent: BouncingScrollPhysics()),
-              itemCount: list.length,
-              itemBuilder: (context, index) {
-                return ExtendedImage.network(
-                  list[index].image,
-                  fit: BoxFit.cover,
-                );
-              }));
+            itemCount: list.length,
+            itemBuilder: (context, index) => ExtendedImage.network(list[index].image),
+          ));
     }
   }
 }

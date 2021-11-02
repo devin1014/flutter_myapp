@@ -32,17 +32,18 @@ class _HomeNewsState extends State<HomeNewsPage> {
   @override
   Widget build(BuildContext context) {
     if (_homeItem == null) {
-      return const SizedBox(
-        width: double.infinity,
-        height: 164,
-        child: Center(child: CircularProgressIndicator()),
+      return const SliverToBoxAdapter(
+        child: SizedBox(
+          width: double.infinity,
+          height: 164,
+          child: Center(child: CircularProgressIndicator()),
+        ),
       );
     }
-    return ListView.builder(
-        itemCount: _homeItem!.value!.list.length,
-        itemExtent: 40,
-        shrinkWrap: false,
-        itemBuilder: (context, index) {
+    return SliverFixedExtentList(
+      itemExtent: 40,
+      delegate: SliverChildBuilderDelegate(
+        (context, index) {
           return SizedBox(
             height: 40,
             child: Align(
@@ -52,6 +53,9 @@ class _HomeNewsState extends State<HomeNewsPage> {
                   child: Text(_homeItem!.value!.list[index].title),
                 )),
           );
-        });
+        },
+        childCount: _homeItem!.value!.list.length,
+      ),
+    );
   }
 }

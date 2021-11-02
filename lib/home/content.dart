@@ -2,7 +2,6 @@ import 'package:extended_image/extended_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_router_demo/home/model/carousel.dart';
-import 'package:flutter_router_demo/util/logger.dart';
 import 'package:flutter_router_demo/util/parser.dart';
 import 'package:flutter_router_demo/widget/error.dart';
 import 'package:flutter_router_demo/widget/loading.dart';
@@ -34,8 +33,6 @@ class _HomeContentPageState extends State<HomeContentPage> {
     setState(() {
       _contentItem = item;
     });
-    Log.i("item: $item");
-    Log.i("values: ${item.value?.list}");
   }
 
   @override
@@ -76,6 +73,7 @@ class _HomeContentPageState extends State<HomeContentPage> {
           border: Border.all(color: Colors.black12),
           borderRadius: const BorderRadius.vertical(bottom: Radius.circular(8)),
           shape: BoxShape.rectangle,
+          color: Colors.white,
           boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 2.0)],
         ),
         child: Column(
