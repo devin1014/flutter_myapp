@@ -28,9 +28,6 @@ class _HomeCardState extends State<HomeCard> {
     Map<String, dynamic> object = await Parser.parseAssets(path);
     Map<String, dynamic> contents = (object['appHomeMainFeed'] as List<dynamic>)[6];
     final item = HomeItem.fromJson(contents);
-    Log.i("item: $item");
-    Log.i("info: ${item.value}");
-    Log.i("latest: ${(item.value!.list[0])}");
     setState(() {
       _contentItem = item;
     });
