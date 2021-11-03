@@ -37,7 +37,7 @@ class _HomeSingleState extends State<HomeSinglePage> {
 
   @override
   Widget build(BuildContext context) {
-    if (_contentItem == null) return const LoadingPage.fixHeight(height: 302);
+    if (_contentItem == null) return const LoadingPage.fixHeight(302);
     BaseCarousel carousel = _contentItem!.value!.list[0];
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: HomePage.edgePadding),

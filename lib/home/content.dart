@@ -37,7 +37,7 @@ class _HomeContentPageState extends State<HomeContentPage> {
   @override
   Widget build(BuildContext context) {
     if (_contentItem == null) {
-      return const LoadingPage.fixHeight(height: 164);
+      return const LoadingPage.fixHeight(164);
     } else if (_contentItem!.value == null || _contentItem!.value!.list.isEmpty) {
       return const ErrorPage(errMsg: "NoData");
     } else {

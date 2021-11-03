@@ -1,9 +1,6 @@
 import 'package:flutter_router_demo/home/model/carousel.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-part 'root.g.dart';
-
-@JsonSerializable()
 class HomeRoot {
   HomeRoot(this.list);
 
@@ -13,7 +10,6 @@ class HomeRoot {
   factory HomeRoot.fromJson(Map<String, dynamic> json) => _$HomeRootFromJson(json);
 }
 
-@JsonSerializable()
 class HomeItem {
   HomeItem(
     this.id,
@@ -29,3 +25,14 @@ class HomeItem {
 
   factory HomeItem.fromJson(Map<String, dynamic> json) => _$HomeItemFromJson(json);
 }
+
+HomeRoot _$HomeRootFromJson(Map<String, dynamic> json) => HomeRoot(
+      (json['appHomeMainFeed'] as List<dynamic>).map((e) => HomeItem.fromJson(e as Map<String, dynamic>)).toList(),
+    );
+
+HomeItem _$HomeItemFromJson(Map<String, dynamic> json) => HomeItem(
+      json['id'] as int,
+      json['type'] as String,
+      json['title'] as String,
+      json['value'] == null ? null : CarouselInfo.fromJson(json['value'] as Object, json['type'] as String),
+    );

@@ -4,7 +4,9 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'carousel.g.dart';
 
-@JsonSerializable()
+/// -----------------------------------------------------------
+/// ---- Carousel Info
+/// -----------------------------------------------------------
 class CarouselInfo {
   CarouselInfo(
     this.limit,
@@ -12,32 +14,44 @@ class CarouselInfo {
     this.isPersonalized,
   );
 
-  @JsonKey(defaultValue: -1)
   final int limit;
-  @JsonKey(defaultValue: false)
   final bool isPremium;
-  @JsonKey(defaultValue: false)
   final bool isPersonalized;
-  @JsonKey(ignore: true)
   List<BaseCarousel> list = [];
 
-  factory CarouselInfo.fromJson(Object object) {
+  /// the object is content of 'value'.
+  factory CarouselInfo.fromJson(Object object, String type) {
     final CarouselInfo result;
     if (object is Map<String, dynamic>) {
       result = _$CarouselInfoFromJson(object);
       List<dynamic> list = object['content'] ?? object['videos'] ?? object['items'] ?? [object];
-      result.list = list.map((e) => BaseCarousel.fromJson(e as Map<String, dynamic>)).toList();
+      result.list = list.map((e) => BaseCarousel.fromJson(buildJson(e, type))).toList();
     } else {
       result = CarouselInfo(-1, false, false);
       if (object is List<dynamic>) {
-        result.list = object.map((e) => BaseCarousel.fromJson(e as Map<String, dynamic>)).toList();
+        result.list = object.map((e) => BaseCarousel.fromJson(buildJson(e, type))).toList();
       }
     }
     return result;
   }
+
+  static CarouselInfo _$CarouselInfoFromJson(Map<String, dynamic> json) => CarouselInfo(
+        json['limit'] as int? ?? -1,
+        json['isPremium'] as bool? ?? false,
+        json['isPersonalized'] as bool? ?? false,
+      );
+
+  static Map<String, dynamic> buildJson(dynamic obj, String type) {
+    Map<String, dynamic> result = obj as Map<String, dynamic>;
+    result["_parentType"] = type;
+    return result;
+  }
 }
 
-@JsonSerializable()
+/// -----------------------------------------------------------
+/// ---- BaseCarousel
+/// -----------------------------------------------------------
+@JsonSerializable(createFactory: false)
 class BaseCarousel {
   BaseCarousel(
     this.id,
@@ -54,9 +68,13 @@ class BaseCarousel {
   static const String carouselTypePage = "page";
   static const String carouselTypeHyperLink = "hyperlink";
   static const String carouselTypeEvent = "event";
-  static const String carouselTypeCard = "card";
+  static const String carouselTypeCard = "collection_cards";
+  static const String carouselTypeTvShow = "tv_show";
+  static const String _carouselTypeTvShow = "taxonomy_cards";
+  static const String _type = "type";
+  static const String _parentType = "_parentType";
 
-  @JsonKey(name: "nbaId")
+  @JsonKey(name: "nbaId", defaultValue: -1)
   final int id;
   @JsonKey(defaultValue: "")
   final String title;
@@ -70,14 +88,18 @@ class BaseCarousel {
   final String type;
 
   factory BaseCarousel.fromJson(Map<String, dynamic> json) {
-    final type = json['type'];
+    final type = json[_type] ?? json[_parentType] ?? "";
     switch (type) {
       case carouselTypeVideo:
         return VideoCarousel.fromJson(json);
       case carouselTypeGame:
         return GameCarousel.fromJson(json);
+      case carouselTypeEvent:
+        return EventCarousel.fromJson(json);
       case carouselTypeHyperLink:
         return LinkCarousel.fromJson(json);
+      case _carouselTypeTvShow:
+        return TvShowCarousel.fromJson(json);
       case carouselTypeCard:
         return CardCarousel.fromJson(json);
       default:
@@ -86,6 +108,9 @@ class BaseCarousel {
   }
 }
 
+/// -----------------------------------------------------------
+/// ---- LinkCarousel
+/// -----------------------------------------------------------
 @JsonSerializable()
 class LinkCarousel extends BaseCarousel {
   LinkCarousel(
@@ -106,6 +131,9 @@ class LinkCarousel extends BaseCarousel {
   factory LinkCarousel.fromJson(Map<String, dynamic> json) => _$LinkCarouselFromJson(json);
 }
 
+/// -----------------------------------------------------------
+/// ---- CardCarousel
+/// -----------------------------------------------------------
 @JsonSerializable()
 class CardCarousel extends BaseCarousel {
   CardCarousel(id, this.name, this.link, image) : super(id, "", "", image, link, BaseCarousel.carouselTypeCard);
@@ -118,6 +146,9 @@ class CardCarousel extends BaseCarousel {
   factory CardCarousel.fromJson(Map<String, dynamic> json) => _$CardCarouselFromJson(json);
 }
 
+/// -----------------------------------------------------------
+/// ---- GameCarousel
+/// -----------------------------------------------------------
 @JsonSerializable()
 class GameCarousel extends BaseCarousel {
   GameCarousel(
@@ -135,6 +166,9 @@ class GameCarousel extends BaseCarousel {
   factory GameCarousel.fromJson(Map<String, dynamic> json) => _$GameCarouselFromJson(json);
 }
 
+/// -----------------------------------------------------------
+/// ---- VideoCarousel
+/// -----------------------------------------------------------
 @JsonSerializable()
 class VideoCarousel extends BaseCarousel {
   VideoCarousel(
@@ -158,6 +192,9 @@ class VideoCarousel extends BaseCarousel {
   factory VideoCarousel.fromJson(Map<String, dynamic> json) => _$VideoCarouselFromJson(json);
 }
 
+/// -----------------------------------------------------------
+/// ---- EventCarousel
+/// -----------------------------------------------------------
 @JsonSerializable()
 class EventCarousel extends BaseCarousel {
   EventCarousel(
@@ -176,4 +213,43 @@ class EventCarousel extends BaseCarousel {
   final String entitlements;
 
   factory EventCarousel.fromJson(Map<String, dynamic> json) => _$EventCarouselFromJson(json);
+}
+
+/// -----------------------------------------------------------
+/// ---- TvShow
+/// -----------------------------------------------------------
+class TvShowCarousel extends BaseCarousel {
+  TvShowCarousel(
+    id,
+    this.name,
+    description,
+    this.permalink,
+    this.latest,
+    this.imagePortrait,
+    this.imageLandscape,
+  ) : super(id, name, description, "", permalink, BaseCarousel.carouselTypeTvShow);
+
+  final String name;
+  final String permalink;
+  final BaseCarousel? latest;
+  final String? imagePortrait;
+  final String? imageLandscape;
+
+  factory TvShowCarousel.fromJson(Map<String, dynamic> json) => _$TvShowCarouselFromJson(json);
+
+  static TvShowCarousel _$TvShowCarouselFromJson(Map<String, dynamic> json) {
+    final list = json['latest'] as List<dynamic>?;
+    final latest = list != null && list.isNotEmpty ? list[0] as Map<String, dynamic> : null;
+    final coverImage = json['coverImage'] as Map<String, dynamic>?;
+
+    return TvShowCarousel(
+      json['nbaId'] ?? json['id'] ?? -1,
+      json['name'] as String,
+      json['description'] ?? '',
+      json['permalink'] as String,
+      latest != null ? BaseCarousel.fromJson(latest) : null,
+      coverImage?["portrait"] as String?,
+      coverImage?["landscape"] as String?,
+    );
+  }
 }

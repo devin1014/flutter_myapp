@@ -35,7 +35,7 @@ class _HomeStoryPageState extends State<HomeStoryPage> {
   @override
   Widget build(BuildContext context) {
     if (_storyList == null) {
-      return const LoadingPage.fixHeight(height: widgetHeight);
+      return const LoadingPage.fixHeight(widgetHeight);
     } else {
       return SizedBox(
         height: widgetHeight,

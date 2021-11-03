@@ -7,15 +7,15 @@ class LoadingPage extends StatelessWidget {
     this.height,
   }) : super(key: key);
 
-  const LoadingPage.fixHeight({
+  const LoadingPage.fixHeight(
+    this.height, {
     Key? key,
-    this.height,
   })  : width = double.infinity,
         super(key: key);
 
-  const LoadingPage.fixWidth({
+  const LoadingPage.fixWidth(
+    this.width, {
     Key? key,
-    this.width,
   })  : height = double.infinity,
         super(key: key);
 
