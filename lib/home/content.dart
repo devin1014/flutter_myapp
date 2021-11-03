@@ -26,7 +26,6 @@ class _HomeContentPageState extends State<HomeContentPage> {
   }
 
   void _loadData(String path) async {
-    Future.delayed(const Duration(seconds: 2), () {});
     Map<String, dynamic> object = await Parser.parseAssets(path);
     Map<String, dynamic> contents = (object['appHomeMainFeed'] as List<dynamic>)[0];
     final item = HomeItem.fromJson(contents);

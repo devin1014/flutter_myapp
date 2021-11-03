@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:flutter/services.dart';
 
@@ -6,7 +7,8 @@ class Parser {
   Parser._();
 
   static Future<dynamic> parseAssets(String path) async {
-    await Future.delayed(const Duration(seconds: 2), () {});
+    //TODO:delay a few seconds.
+    await Future.delayed(Duration(seconds: Random().nextInt(5)), () {});
     String data = await rootBundle.loadString(path);
     return parse(data, "results");
   }
@@ -30,22 +32,4 @@ class Parser {
     if (deep == 0) return obj;
     return getDeepObject(obj[obj.keys.first], deep - 1);
   }
-
-//TODO: add map function.
-// static List<T> parse<T>(String? data, [String? root]) {
-//   if (data == null || data.isEmpty) return List.empty();
-//   dynamic object = json.decode(data);
-//   if (object is List<T>) return object;
-//   if (object is Map && object.isNotEmpty) {
-//     if (object.length == 1) {
-//       return object[object.keys.first] as List<T>;
-//     } else if (root != null && root.isNotEmpty && object.containsKey(root)) {
-//       final result = object[root];
-//       if (result is List<T>) {
-//         return result;
-//       }
-//     }
-//   }
-//   return List.empty();
-// }
 }

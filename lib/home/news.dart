@@ -20,7 +20,6 @@ class _HomeNewsState extends State<HomeNewsPage> {
   }
 
   void _loadData(String path) async {
-    Future.delayed(const Duration(seconds: 2), () {});
     Map<String, dynamic> object = await Parser.parseAssets(path);
     Map<String, dynamic> news = (object['appHomeMainFeed'] as List<dynamic>)[2];
     final item = HomeItem.fromJson(news);

@@ -1,10 +1,10 @@
-import 'dart:convert';
-
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_router_demo/home/model/model.dart';
 import 'package:flutter_router_demo/util/image.dart';
+import 'package:flutter_router_demo/util/parser.dart';
+import 'package:flutter_router_demo/widget/loading.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class HomeStoryPage extends StatefulWidget {
   const HomeStoryPage({Key? key}) : super(key: key);
@@ -15,6 +15,7 @@ class HomeStoryPage extends StatefulWidget {
 
 class _HomeStoryPageState extends State<HomeStoryPage> {
   static const edgeHorPadding = 12.0;
+  static const widgetHeight = 164.0;
   List<Story>? _storyList;
 
   @override
@@ -24,69 +25,53 @@ class _HomeStoryPageState extends State<HomeStoryPage> {
   }
 
   void _loadData(String path) async {
-    await Future.delayed(const Duration(microseconds: 3500), () {});
-    String data = await rootBundle.loadString(path);
-    List<dynamic> result = json.decode(data);
-    final mapped = result.map((e) => Story.fromJson(e));
+    List<dynamic> result = await Parser.parseAssets(path);
+    final list = result.map((e) => Story.fromJson(e)).toList();
     setState(() {
-      _storyList = mapped.toList();
+      _storyList = list;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      height: 164,
-      alignment: Alignment.centerLeft,
-      child: _buildContent(),
-    );
-  }
-
-  Widget _buildContent() {
     if (_storyList == null) {
-      return const Center(
-        child: CircularProgressIndicator(),
-      );
+      return const LoadingPage.fixHeight(height: widgetHeight);
     } else {
-      return ListView.separated(
-        scrollDirection: Axis.horizontal,
-        padding: const EdgeInsets.symmetric(horizontal: edgeHorPadding),
-        itemCount: _storyList!.length,
-        itemBuilder: (context, index) {
-          return SizedBox(
-            width: 124,
-            height: 164,
-            child: InkWell(
-              onTap: () {
-                //TODO:
-              },
-              child: Stack(
-                alignment: Alignment.bottomCenter,
-                children: [
-                  ExtendedImage.network(ImageUtil.getStory(_storyList![index].image)),
-                  Container(
-                    color: Colors.yellow,
-                    width: 124,
-                    height: 48,
-                    alignment: Alignment.bottomLeft,
-                    padding: const EdgeInsets.all(6),
-                    child: Text(
-                      _storyList![index].name,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      softWrap: true,
-                    ),
-                  )
-                ],
-              ),
-            ),
-          );
-        },
-        separatorBuilder: (BuildContext context, int index) {
-          return const SizedBox(width: edgeHorPadding);
-        },
+      return SizedBox(
+        height: widgetHeight,
+        child: ListView.separated(
+          scrollDirection: Axis.horizontal,
+          padding: const EdgeInsets.symmetric(horizontal: edgeHorPadding),
+          itemCount: _storyList!.length,
+          itemBuilder: (context, index) => _buildItem(_storyList![index]),
+          separatorBuilder: (context, index) => const SizedBox(width: edgeHorPadding),
+        ),
       );
     }
+  }
+
+  Widget _buildItem(Story story) {
+    return SizedBox(
+        width: 124,
+        height: widgetHeight,
+        child: Stack(
+          alignment: Alignment.bottomCenter,
+          children: [
+            ExtendedImage.network(ImageUtil.getStory(story.image), fit: BoxFit.cover),
+            Container(
+              color: Colors.yellow,
+              height: 48,
+              alignment: Alignment.bottomLeft,
+              padding: const EdgeInsets.all(6),
+              child: Text(story.name, maxLines: 2, overflow: TextOverflow.ellipsis),
+            ),
+            InkWell(
+              onTap: () {
+                Fluttertoast.showToast(msg: "click: ${story.name}");
+              },
+              child: const SizedBox.expand(),
+            )
+          ],
+        ));
   }
 }

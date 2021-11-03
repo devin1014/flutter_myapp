@@ -7,7 +7,7 @@ import 'package:flutter_router_demo/widget/loading.dart';
 class HomeHeroPage extends StatefulWidget {
   const HomeHeroPage({Key? key}) : super(key: key);
 
-  static const ratio_16_9 = 16 / 9;
+  static const ratio_16_9 = 16.0 / 9.0;
 
   @override
   State<StatefulWidget> createState() => _HomeHeroPageState();
@@ -32,24 +32,20 @@ class _HomeHeroPageState extends State<HomeHeroPage> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: double.infinity,
-      height: 196,
+    return AspectRatio(
+      aspectRatio: HomeHeroPage.ratio_16_9,
       child: _buildContent(),
     );
   }
 
   Widget _buildContent() {
     if (_list == null) {
-      return const LoadingPage.fixHeight(height: 196);
+      return const LoadingPage.expand();
     } else {
-      List<home.Hero> list = _list!;
-      return AspectRatio(
-          aspectRatio: HomeHeroPage.ratio_16_9,
-          child: PageView.builder(
-            itemCount: list.length,
-            itemBuilder: (context, index) => ExtendedImage.network(list[index].image),
-          ));
+      return PageView.builder(
+        itemCount: _list!.length,
+        itemBuilder: (context, index) => ExtendedImage.network(_list![index].image, fit: BoxFit.cover),
+      );
     }
   }
 }

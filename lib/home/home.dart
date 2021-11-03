@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_router_demo/home/content.dart';
 import 'package:flutter_router_demo/home/hero.dart';
 import 'package:flutter_router_demo/home/news.dart';
+import 'package:flutter_router_demo/home/single.dart';
 import 'package:flutter_router_demo/home/story.dart';
 
 class HomePage extends StatefulWidget {
@@ -24,14 +25,15 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return CustomScrollView(
       slivers: [
-        _buildItemTitle("Hero"),
-        const SliverToBoxAdapter(child: HomeHeroPage()),
-        _buildItemTitle("Story"),
-        const SliverToBoxAdapter(child: HomeStoryPage()),
-        _buildItemTitle("News"),
-        const HomeNewsPage(),
-        _buildItemTitle("Content"),
-        const SliverToBoxAdapter(child: HomeContentPage()),
+        // _buildItemTitle("Hero"),
+        // const SliverToBoxAdapter(child: HomeHeroPage()),
+        // _buildItemTitle("Story"),
+        // const SliverToBoxAdapter(child: HomeStoryPage()),
+        // _buildItemTitle("News"),
+        // const HomeNewsPage(),
+        // _buildItemTitle("Content"),
+        // const SliverToBoxAdapter(child: HomeContentPage()),
+        const SliverToBoxAdapter(child: HomeSinglePage()),
       ],
     );
   }
