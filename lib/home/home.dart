@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_router_demo/home/content.dart';
-import 'package:flutter_router_demo/home/hero.dart';
-import 'package:flutter_router_demo/home/news.dart';
+import 'package:flutter_router_demo/home/card.dart';
 import 'package:flutter_router_demo/home/story.dart';
 import 'package:flutter_router_demo/home/tv_show.dart';
+
+import 'content.dart';
+import 'hero.dart';
+import 'news.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -35,6 +37,8 @@ class _HomePageState extends State<HomePage> {
         const SliverToBoxAdapter(child: HomeContentPage()),
         _buildItemTitle("NBA TV Shows"),
         const SliverToBoxAdapter(child: HomeTvShowPage()),
+        _buildItemTitle("Collection Cards"),
+        const SliverToBoxAdapter(child: HomeCard())
       ],
     );
   }

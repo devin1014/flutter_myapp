@@ -39,21 +39,6 @@ Map<String, dynamic> _$LinkCarouselToJson(LinkCarousel instance) =>
       'useUpdatedDate': instance.useUpdatedDate,
     };
 
-CardCarousel _$CardCarouselFromJson(Map<String, dynamic> json) => CardCarousel(
-      json['nbaId'] ?? -1,
-      json['name'] as String,
-      json['permalink'] as String,
-      json['image'] ?? '',
-    );
-
-Map<String, dynamic> _$CardCarouselToJson(CardCarousel instance) =>
-    <String, dynamic>{
-      'nbaId': instance.id,
-      'image': instance.image,
-      'name': instance.name,
-      'permalink': instance.link,
-    };
-
 GameCarousel _$GameCarouselFromJson(Map<String, dynamic> json) => GameCarousel(
       json['nbaId'] ?? -1,
       json['title'] ?? '',

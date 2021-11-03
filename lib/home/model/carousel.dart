@@ -68,8 +68,9 @@ class BaseCarousel {
   static const String carouselTypePage = "page";
   static const String carouselTypeHyperLink = "hyperlink";
   static const String carouselTypeEvent = "event";
-  static const String carouselTypeCard = "collection_cards";
+  static const String carouselTypeCard = "card";
   static const String carouselTypeTvShow = "tv_show";
+  static const String _carouselTypeCard = "collection_cards";
   static const String _carouselTypeTvShow = "taxonomy_cards";
   static const String _type = "type";
   static const String _parentType = "_parentType";
@@ -100,7 +101,7 @@ class BaseCarousel {
         return LinkCarousel.fromJson(json);
       case _carouselTypeTvShow:
         return TvShowCarousel.fromJson(json);
-      case carouselTypeCard:
+      case _carouselTypeCard:
         return CardCarousel.fromJson(json);
       default:
         return LinkCarousel.fromJson(json);
@@ -136,14 +137,21 @@ class LinkCarousel extends BaseCarousel {
 /// -----------------------------------------------------------
 @JsonSerializable()
 class CardCarousel extends BaseCarousel {
-  CardCarousel(id, this.name, this.link, image) : super(id, "", "", image, link, BaseCarousel.carouselTypeCard);
-
-  final String name;
-  @JsonKey(name: "permalink")
-  @override
-  final String link;
+  CardCarousel(
+    id,
+    name,
+    permalink,
+    image,
+  ) : super(id, name, name, image, permalink, BaseCarousel.carouselTypeCard);
 
   factory CardCarousel.fromJson(Map<String, dynamic> json) => _$CardCarouselFromJson(json);
+
+  static CardCarousel _$CardCarouselFromJson(Map<String, dynamic> json) => CardCarousel(
+        json['nbaId'] ?? json['id'] ?? -1,
+        json['name'] as String,
+        json['permalink'] as String,
+        json['image'] ?? '',
+      );
 }
 
 /// -----------------------------------------------------------

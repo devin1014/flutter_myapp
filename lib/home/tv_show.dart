@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_router_demo/home/home.dart';
 import 'package:flutter_router_demo/home/model/carousel.dart';
 import 'package:flutter_router_demo/home/model/root.dart';
-import 'package:flutter_router_demo/util/logger.dart';
 import 'package:flutter_router_demo/util/parser.dart';
 import 'package:flutter_router_demo/widget/loading.dart';
 
@@ -27,9 +26,6 @@ class _HomeTvShowState extends State<HomeTvShowPage> {
     Map<String, dynamic> object = await Parser.parseAssets(path);
     Map<String, dynamic> contents = (object['appHomeMainFeed'] as List<dynamic>)[7];
     final item = HomeItem.fromJson(contents);
-    Log.i("item: $item");
-    Log.i("info: ${item.value}");
-    Log.i("latest: ${(item.value!.list[0])}");
     setState(() {
       _contentItem = item;
     });
