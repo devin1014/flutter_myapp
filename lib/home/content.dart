@@ -2,65 +2,54 @@ import 'package:extended_image/extended_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_router_demo/home/model/carousel.dart';
-import 'package:flutter_router_demo/util/parser.dart';
-import 'package:flutter_router_demo/widget/error.dart';
 import 'package:flutter_router_demo/widget/horizontal_list_view.dart';
-import 'package:flutter_router_demo/widget/loading.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import 'model/root.dart';
 
 class HomeContentPage extends StatefulWidget {
-  const HomeContentPage({Key? key}) : super(key: key);
+  const HomeContentPage(HomeItem homeItem, {Key? key})
+      : _homeItem = homeItem,
+        super(key: key);
+
+  final HomeItem _homeItem;
 
   @override
   State<StatefulWidget> createState() => _HomeContentPageState();
 }
 
 class _HomeContentPageState extends State<HomeContentPage> {
-  HomeItem? _contentItem;
-
   @override
   void initState() {
     super.initState();
-    _loadData("data/home_landing.json");
-  }
-
-  void _loadData(String path) async {
-    Map<String, dynamic> object = await Parser.parseAssets(path);
-    Map<String, dynamic> contents = (object['appHomeMainFeed'] as List<dynamic>)[0];
-    final item = HomeItem.fromJson(contents);
-    setState(() {
-      _contentItem = item;
-    });
   }
 
   @override
   Widget build(BuildContext context) {
-    if (_contentItem == null) {
-      return const LoadingPage.fixHeight(164);
-    } else if (_contentItem!.value == null || _contentItem!.value!.list.isEmpty) {
-      return const ErrorPage(errMsg: "NoData");
-    } else {
-      final list = _contentItem!.value!.list;
-      return SizedBox(
-          width: double.infinity,
-          height: 233,
-          child: HorizontalListViewBuilder.build(
-            itemCount: list.length,
-            padding: true,
-            itemDividerWidth: 12,
-            itemVisibleCount: 1.25,
-            itemBuilder: (context, index) {
-              return InkWell(
-                onTap: () {
-                  Fluttertoast.showToast(msg: "tap: $index}");
-                },
-                child: _buildHomeContent(list[index]),
-              );
-            },
-          ));
-    }
+    // if (_contentItem == null) {
+    //   return const LoadingPage.fixHeight(164);
+    // } else if (_contentItem!.value == null || _contentItem!.value!.list.isEmpty) {
+    //   return const ErrorPage(errMsg: "NoData");
+    // } else {
+    final list = widget._homeItem.value!.list;
+    return SizedBox(
+        width: double.infinity,
+        height: 233,
+        child: HorizontalListViewBuilder.build(
+          itemCount: list.length,
+          padding: true,
+          itemDividerWidth: 12,
+          itemVisibleCount: 1.25,
+          itemBuilder: (context, index) {
+            return InkWell(
+              onTap: () {
+                Fluttertoast.showToast(msg: "tap: $index}");
+              },
+              child: _buildHomeContent(list[index]),
+            );
+          },
+        ));
+    // }
   }
 
   Widget _buildHomeContent(BaseCarousel carousel) {

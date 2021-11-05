@@ -6,24 +6,12 @@ part of 'model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-Hero _$HeroFromJson(Map<String, dynamic> json) => Hero(
-      json['nbaId'] as int,
-      json['title'] as String,
-      json['subTitle'] as String,
+HomeHero _$HomeHeroFromJson(Map<String, dynamic> json) => HomeHero(
       json['image'] as String,
-      json['link'] as String,
-      json['type'] as String?,
-      Hero._parseHeroImageFromJson(json['hero']),
     );
 
-Map<String, dynamic> _$HeroToJson(Hero instance) => <String, dynamic>{
-      'nbaId': instance.id,
-      'title': instance.title,
-      'subTitle': instance.subTitle,
-      'image': instance.itemImage,
-      'link': instance.link,
-      'type': instance.type,
-      'hero': Hero._getHeroImageToJson(instance.heroImage),
+Map<String, dynamic> _$HomeHeroToJson(HomeHero instance) => <String, dynamic>{
+      'image': instance.image,
     };
 
 Story _$StoryFromJson(Map<String, dynamic> json) => Story(

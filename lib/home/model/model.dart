@@ -4,57 +4,61 @@ part 'model.g.dart';
 
 // ------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------
-// --- Story
+// --- Hero
 // ------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------
 @JsonSerializable()
-class Hero {
-  Hero(
-    this.id,
-    this.title,
-    this.subTitle,
-    this.itemImage,
-    this.link,
-    this.type,
-    this.heroImage,
-  );
+class HomeHero {
+  const HomeHero(this.image);
 
-  //@JsonConverter
-  @JsonKey(name: "nbaId")
-  final int id;
-  final String title;
-  final String subTitle;
-  @JsonKey(name: "image")
-  final String itemImage;
-  final String link;
-  final String? type;
-  @JsonKey(name: "hero", fromJson: _parseHeroImageFromJson, toJson: _getHeroImageToJson)
-  final String? heroImage;
+  final String image;
 
-  String get image => heroImage ?? itemImage;
+  factory HomeHero.fromJson(Map<String, dynamic> json) => _$HomeHeroFromJson(json);
 
-  factory Hero.fromJson(Map<String, dynamic> json) => _$HeroFromJson(json);
-
-  Map<String, dynamic> toJson() => _$HeroToJson(this);
-
-  static String? _parseHeroImageFromJson(Object? object) {
-    if (object is Map<String, dynamic> && object.containsKey("image")) {
-      return object["image"];
-    }
-    return null;
-  }
-
-  static Map<String, dynamic>? _getHeroImageToJson(String? object) {
-    if (object == null) return null;
-    return {"image": object};
-  }
-
-  @override
-  fromJson(Map<String, dynamic> json) {
-    // TODO: implement fromJson
-    throw UnimplementedError();
-  }
+  Map<String, dynamic> toJson() => _$HomeHeroToJson(this);
 }
+// @JsonSerializable()
+// class Hero {
+//   Hero(
+//     this.id,
+//     this.title,
+//     this.subTitle,
+//     this.itemImage,
+//     this.link,
+//     this.type,
+//     this.heroImage,
+//   );
+//
+//   //@JsonConverter
+//   @JsonKey(name: "nbaId")
+//   final int id;
+//   final String title;
+//   final String subTitle;
+//   @JsonKey(name: "image")
+//   final String itemImage;
+//   final String link;
+//   final String? type;
+//   @JsonKey(name: "hero", fromJson: _parseHeroImageFromJson, toJson: _getHeroImageToJson)
+//   final String? heroImage;
+//
+//   String get image => heroImage ?? itemImage;
+//
+//   factory Hero.fromJson(Map<String, dynamic> json) => _$HeroFromJson(json);
+//
+//   Map<String, dynamic> toJson() => _$HeroToJson(this);
+//
+//   static String? _parseHeroImageFromJson(Object? object) {
+//     if (object is Map<String, dynamic> && object.containsKey("image")) {
+//       return object["image"];
+//     }
+//     return null;
+//   }
+//
+//   static Map<String, dynamic>? _getHeroImageToJson(String? object) {
+//     if (object == null) return null;
+//     return {"image": object};
+//   }
+// }
 
 // ------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------

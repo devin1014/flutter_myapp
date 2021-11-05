@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_router_demo/global.dart';
 import 'package:flutter_router_demo/home/home.dart';
 import 'package:flutter_router_demo/pages/game.dart';
 import 'package:flutter_router_demo/pages/setting.dart';
 import 'package:flutter_router_demo/pages/video.dart';
 import 'package:flutter_router_demo/routers.dart';
 
-void main() {
-  runApp(const MyApp());
-}
+void main() => Global.init().then((value) => runApp(const MyApp()));
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -15,14 +14,11 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    //TODO:should router initialize here?
-    Routers.initialize();
     return MaterialApp(
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
-        onGenerateRoute: Routers.router.generator);
+      title: 'Flutter Demo',
+      theme: ThemeData(primarySwatch: Colors.blue),
+      onGenerateRoute: Routers.router.generator,
+    );
   }
 }
 
@@ -36,7 +32,7 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   _MainPageState();
 
-  final List<Widget> pages = [HomePage(), const GamePage(), const VideoPage(), const SettingPage()];
+  final List<Widget> pages = [const HomePage(), const GamePage(), const VideoPage(), const SettingPage()];
 
   int _selectedIndex = 0;
 
@@ -49,7 +45,7 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Router")),
+      appBar: AppBar(title: const Text("Flutter Demo")),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),

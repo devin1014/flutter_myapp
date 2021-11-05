@@ -1,42 +1,31 @@
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_router_demo/home/model/carousel.dart';
-import 'package:flutter_router_demo/util/parser.dart';
-import 'package:flutter_router_demo/widget/loading.dart';
 
 import 'model/root.dart';
 
 class HomeTvPage extends StatefulWidget {
-  const HomeTvPage({Key? key}) : super(key: key);
+  const HomeTvPage(HomeItem homeItem, {Key? key})
+      : _homeItem = homeItem,
+        super(key: key);
+
+  final HomeItem _homeItem;
 
   @override
   State<StatefulWidget> createState() => _HomeTvPageState();
 }
 
 class _HomeTvPageState extends State<HomeTvPage> {
-  HomeItem? _contentItem;
-
   @override
   void initState() {
     super.initState();
-    _loadData("data/home_landing.json");
-  }
-
-  void _loadData(String path) async {
-    Map<String, dynamic> object = await Parser.parseAssets(path);
-    Map<String, dynamic> contents = (object['appHomeMainFeed'] as List<dynamic>)[5];
-    final item = HomeItem.fromJson(contents);
-    setState(() {
-      _contentItem = item;
-    });
   }
 
   static const _edgePadding = EdgeInsets.symmetric(horizontal: 12);
 
   @override
   Widget build(BuildContext context) {
-    if (_contentItem == null) return const LoadingPage.fixHeight(196);
-    final list = _contentItem!.value!.list;
+    final list = widget._homeItem.value!.list;
     return Container(
       height: 530,
       color: Colors.black,

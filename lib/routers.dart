@@ -43,7 +43,7 @@ Handler get _mainHandler => Handler(handlerFunc: (_, Map<String, List<String>> p
     });
 
 Handler get _homeHandler => Handler(handlerFunc: (_, Map<String, List<String>> parameters) {
-      return HomePage();
+      return const HomePage();
     });
 
 Handler get _gameHandler => Handler(handlerFunc: (_, Map<String, List<String>> parameters) {

@@ -1,44 +1,30 @@
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_router_demo/home/home.dart';
-import 'package:flutter_router_demo/util/logger.dart';
-import 'package:flutter_router_demo/util/parser.dart';
-import 'package:flutter_router_demo/widget/loading.dart';
 
 import 'model/carousel.dart';
 import 'model/root.dart';
 
 class HomeSinglePage extends StatefulWidget {
-  const HomeSinglePage({Key? key}) : super(key: key);
+  const HomeSinglePage(HomeItem homeItem, {Key? key})
+      : _homeItem = homeItem,
+        super(key: key);
+
+  final HomeItem _homeItem;
 
   @override
   State<StatefulWidget> createState() => _HomeSingleState();
 }
 
 class _HomeSingleState extends State<HomeSinglePage> {
-  HomeItem? _contentItem;
-
   @override
   void initState() {
     super.initState();
-    _loadData("data/home_landing.json");
-  }
-
-  void _loadData(String path) async {
-    Map<String, dynamic> object = await Parser.parseAssets(path);
-    Map<String, dynamic> contents = (object['appHomeMainFeed'] as List<dynamic>)[8];
-    final item = HomeItem.fromJson(contents);
-    Log.i("item: $item");
-    Log.i("item: ${item.value}");
-    setState(() {
-      _contentItem = item;
-    });
   }
 
   @override
   Widget build(BuildContext context) {
-    if (_contentItem == null) return const LoadingPage.fixHeight(302);
-    BaseCarousel carousel = _contentItem!.value!.list[0];
+    BaseCarousel carousel = widget._homeItem.value!.list[0];
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: HomePage.edgePadding),
       child: Container(

@@ -3,39 +3,28 @@ import 'package:flutter/material.dart';
 import 'package:flutter_router_demo/home/home.dart';
 import 'package:flutter_router_demo/home/model/carousel.dart';
 import 'package:flutter_router_demo/home/model/root.dart';
-import 'package:flutter_router_demo/util/parser.dart';
 import 'package:flutter_router_demo/widget/horizontal_list_view.dart';
-import 'package:flutter_router_demo/widget/loading.dart';
 
 class HomeTvShowPage extends StatefulWidget {
-  const HomeTvShowPage({Key? key}) : super(key: key);
+  const HomeTvShowPage(HomeItem homeItem, {Key? key})
+      : _homeItem = homeItem,
+        super(key: key);
+
+  final HomeItem _homeItem;
 
   @override
   State<StatefulWidget> createState() => _HomeTvShowState();
 }
 
 class _HomeTvShowState extends State<HomeTvShowPage> {
-  HomeItem? _contentItem;
-
   @override
   void initState() {
     super.initState();
-    _loadData("data/home_landing.json");
-  }
-
-  void _loadData(String path) async {
-    Map<String, dynamic> object = await Parser.parseAssets(path);
-    Map<String, dynamic> contents = (object['appHomeMainFeed'] as List<dynamic>)[7];
-    final item = HomeItem.fromJson(contents);
-    setState(() {
-      _contentItem = item;
-    });
   }
 
   @override
   Widget build(BuildContext context) {
-    if (_contentItem == null) const LoadingPage.fixHeight(380);
-    final list = _contentItem!.value!.list;
+    final list = widget._homeItem.value!.list;
     return SizedBox(
         height: 380,
         child: HorizontalListViewBuilder.build(
