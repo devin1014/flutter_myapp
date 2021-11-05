@@ -1,3 +1,4 @@
+import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_router_demo/home/card.dart';
 import 'package:flutter_router_demo/home/content.dart';
@@ -43,6 +44,7 @@ class _HomePageState extends State<HomePage> {
       return const Center(child: LoadingPage.expand());
     } else {
       List<Widget> list = [
+        SliverToBoxAdapter(child: ExtendedImage.network(_homeRoot!.banner.mobileImage, fit: BoxFit.cover)),
         SliverToBoxAdapter(child: HomeHeroPage(_homeRoot!.heroList)),
       ];
       for (var item in _homeRoot!.contentList) {

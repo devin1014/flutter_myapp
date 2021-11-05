@@ -2,11 +2,30 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'model.g.dart';
 
-// ------------------------------------------------------------------------------------------
-// ------------------------------------------------------------------------------------------
-// --- Hero
-// ------------------------------------------------------------------------------------------
-// ------------------------------------------------------------------------------------------
+@JsonSerializable()
+class HomeBanner {
+  HomeBanner(
+    this.image,
+    this.mobileImage,
+    this.tabletImage,
+    this.url,
+    this.mobileUrl,
+  );
+
+  final String image;
+  final String mobileImage;
+  final String tabletImage;
+  final String url;
+  final String mobileUrl;
+
+  factory HomeBanner.fromJson(Map<String, dynamic> json) => _$HomeBannerFromJson(json);
+
+  Map<String, dynamic> toJson() => _$HomeBannerToJson(this);
+}
+
+/// ------------------------------------------------------------------------------------------
+/// --- Hero
+/// ------------------------------------------------------------------------------------------
 @JsonSerializable()
 class HomeHero {
   const HomeHero(this.image);
@@ -17,54 +36,10 @@ class HomeHero {
 
   Map<String, dynamic> toJson() => _$HomeHeroToJson(this);
 }
-// @JsonSerializable()
-// class Hero {
-//   Hero(
-//     this.id,
-//     this.title,
-//     this.subTitle,
-//     this.itemImage,
-//     this.link,
-//     this.type,
-//     this.heroImage,
-//   );
-//
-//   //@JsonConverter
-//   @JsonKey(name: "nbaId")
-//   final int id;
-//   final String title;
-//   final String subTitle;
-//   @JsonKey(name: "image")
-//   final String itemImage;
-//   final String link;
-//   final String? type;
-//   @JsonKey(name: "hero", fromJson: _parseHeroImageFromJson, toJson: _getHeroImageToJson)
-//   final String? heroImage;
-//
-//   String get image => heroImage ?? itemImage;
-//
-//   factory Hero.fromJson(Map<String, dynamic> json) => _$HeroFromJson(json);
-//
-//   Map<String, dynamic> toJson() => _$HeroToJson(this);
-//
-//   static String? _parseHeroImageFromJson(Object? object) {
-//     if (object is Map<String, dynamic> && object.containsKey("image")) {
-//       return object["image"];
-//     }
-//     return null;
-//   }
-//
-//   static Map<String, dynamic>? _getHeroImageToJson(String? object) {
-//     if (object == null) return null;
-//     return {"image": object};
-//   }
-// }
 
-// ------------------------------------------------------------------------------------------
-// ------------------------------------------------------------------------------------------
-// --- Story
-// ------------------------------------------------------------------------------------------
-// ------------------------------------------------------------------------------------------
+/// ------------------------------------------------------------------------------------------
+/// --- Story
+/// ------------------------------------------------------------------------------------------
 @JsonSerializable()
 class Story {
   final int id;

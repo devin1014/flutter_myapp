@@ -6,6 +6,23 @@ part of 'model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+HomeBanner _$HomeBannerFromJson(Map<String, dynamic> json) => HomeBanner(
+      json['image'] as String,
+      json['mobileImage'] as String,
+      json['tabletImage'] as String,
+      json['url'] as String,
+      json['mobileUrl'] as String,
+    );
+
+Map<String, dynamic> _$HomeBannerToJson(HomeBanner instance) =>
+    <String, dynamic>{
+      'image': instance.image,
+      'mobileImage': instance.mobileImage,
+      'tabletImage': instance.tabletImage,
+      'url': instance.url,
+      'mobileUrl': instance.mobileUrl,
+    };
+
 HomeHero _$HomeHeroFromJson(Map<String, dynamic> json) => HomeHero(
       json['image'] as String,
     );

@@ -1,17 +1,20 @@
 import 'package:flutter_router_demo/home/model/carousel.dart';
+import 'package:flutter_router_demo/home/model/model.dart';
 
 class HomeRoot {
-  HomeRoot(this.heroList, this.contentList);
+  HomeRoot(this.banner, this.heroList, this.contentList);
 
+  final HomeBanner banner;
   final List<BaseCarousel> heroList;
   final List<HomeItem> contentList;
 
   factory HomeRoot.fromJson(Map<String, dynamic> json) {
+    final homeBanner = HomeBanner.fromJson(json['tuneInBanner'] as Map<String, dynamic>);
     final homeHeroCarousel = json['homeHeroCarousel'] as List<dynamic>;
     final heroList = homeHeroCarousel.map((e) => BaseCarousel.fromJson(e as Map<String, dynamic>)).toList();
     final appHomeMainFeed = json['appHomeMainFeed'] as List<dynamic>;
     final mainList = appHomeMainFeed.map((e) => HomeItem.fromJson(e as Map<String, dynamic>)).toList();
-    return HomeRoot(heroList, mainList);
+    return HomeRoot(homeBanner, heroList, mainList);
   }
 }
 
