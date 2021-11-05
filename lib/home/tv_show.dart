@@ -4,6 +4,7 @@ import 'package:flutter_router_demo/home/home.dart';
 import 'package:flutter_router_demo/home/model/carousel.dart';
 import 'package:flutter_router_demo/home/model/root.dart';
 import 'package:flutter_router_demo/util/parser.dart';
+import 'package:flutter_router_demo/widget/horizontal_list_view.dart';
 import 'package:flutter_router_demo/widget/loading.dart';
 
 class HomeTvShowPage extends StatefulWidget {
@@ -37,14 +38,12 @@ class _HomeTvShowState extends State<HomeTvShowPage> {
     final list = _contentItem!.value!.list;
     return SizedBox(
         height: 380,
-        child: ListView.separated(
-          scrollDirection: Axis.horizontal,
-          padding: const EdgeInsets.symmetric(horizontal: HomePage.edgePadding),
+        child: HorizontalListViewBuilder.build(
+          padding: true,
+          itemDividerWidth: HomePage.edgePadding,
           itemCount: list.length,
+          itemVisibleCount: 1.25,
           itemBuilder: (context, index) => _buildItem(list[index] as TvShowCarousel),
-          separatorBuilder: (BuildContext context, int index) {
-            return const SizedBox(width: 16);
-          },
         ));
   }
 

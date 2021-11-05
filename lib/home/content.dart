@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_router_demo/home/model/carousel.dart';
 import 'package:flutter_router_demo/util/parser.dart';
 import 'package:flutter_router_demo/widget/error.dart';
+import 'package:flutter_router_demo/widget/horizontal_list_view.dart';
 import 'package:flutter_router_demo/widget/loading.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -43,12 +44,13 @@ class _HomeContentPageState extends State<HomeContentPage> {
     } else {
       final list = _contentItem!.value!.list;
       return SizedBox(
-        width: double.infinity,
-        height: 233,
-        child: ListView.separated(
-            scrollDirection: Axis.horizontal,
+          width: double.infinity,
+          height: 233,
+          child: HorizontalListViewBuilder.build(
             itemCount: list.length,
-            padding: const EdgeInsets.symmetric(horizontal: 20),
+            padding: true,
+            itemDividerWidth: 12,
+            itemVisibleCount: 1.25,
             itemBuilder: (context, index) {
               return InkWell(
                 onTap: () {
@@ -57,10 +59,7 @@ class _HomeContentPageState extends State<HomeContentPage> {
                 child: _buildHomeContent(list[index]),
               );
             },
-            separatorBuilder: (BuildContext context, int index) {
-              return const SizedBox(width: 40);
-            }),
-      );
+          ));
     }
   }
 

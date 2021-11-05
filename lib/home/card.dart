@@ -2,8 +2,8 @@ import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_router_demo/home/home.dart';
 import 'package:flutter_router_demo/home/model/carousel.dart';
-import 'package:flutter_router_demo/util/logger.dart';
 import 'package:flutter_router_demo/util/parser.dart';
+import 'package:flutter_router_demo/widget/horizontal_list_view.dart';
 import 'package:flutter_router_demo/widget/loading.dart';
 
 import 'model/root.dart';
@@ -39,12 +39,12 @@ class _HomeCardState extends State<HomeCard> {
     final list = _contentItem!.value!.list;
     return SizedBox(
       height: 220,
-      child: ListView.separated(
-        scrollDirection: Axis.horizontal,
-        padding: const EdgeInsets.symmetric(horizontal: HomePage.edgePadding),
+      child: HorizontalListViewBuilder.build(
+        padding: true,
+        itemVisibleCount: 2,
         itemCount: list.length,
+        itemDividerWidth: HomePage.edgePadding,
         itemBuilder: (context, index) => _buildItem(list[index] as CardCarousel),
-        separatorBuilder: (context, index) => const SizedBox(width: 12),
       ),
     );
   }

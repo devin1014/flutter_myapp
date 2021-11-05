@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_router_demo/home/model/model.dart';
 import 'package:flutter_router_demo/util/image.dart';
 import 'package:flutter_router_demo/util/parser.dart';
+import 'package:flutter_router_demo/widget/horizontal_list_view.dart';
 import 'package:flutter_router_demo/widget/loading.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -39,12 +40,12 @@ class _HomeStoryPageState extends State<HomeStoryPage> {
     } else {
       return SizedBox(
         height: widgetHeight,
-        child: ListView.separated(
-          scrollDirection: Axis.horizontal,
-          padding: const EdgeInsets.symmetric(horizontal: edgeHorPadding),
+        child: HorizontalListViewBuilder.build(
+          padding: true,
+          itemVisibleCount: 2,
+          itemDividerWidth: edgeHorPadding,
           itemCount: _storyList!.length,
           itemBuilder: (context, index) => _buildItem(_storyList![index]),
-          separatorBuilder: (context, index) => const SizedBox(width: edgeHorPadding),
         ),
       );
     }
