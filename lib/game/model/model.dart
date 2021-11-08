@@ -21,4 +21,6 @@ class SingleGame {
   final String visitorTeamId;
 
   factory SingleGame.fromJson(Map<String, dynamic> json) => _$SingleGameFromJson(json);
+
+  Map<String, dynamic> toJson() => _$SingleGameToJson(this);
 }
