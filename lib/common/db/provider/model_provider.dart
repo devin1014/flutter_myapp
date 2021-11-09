@@ -1,3 +1,4 @@
+import 'package:flutter_router_demo/util/compress.dart';
 import 'package:flutter_router_demo/util/logger.dart';
 import 'package:path/path.dart' as path_util;
 import 'package:sqflite/sqflite.dart';
@@ -94,7 +95,7 @@ class DatabaseProvider extends BaseDatabaseProvider<String> {
       BaseDatabaseProvider._columnKey: key,
       BaseDatabaseProvider._columnRequestDate: DateTime.now().toString(),
       BaseDatabaseProvider._columnExpiredDate: "-1",
-      BaseDatabaseProvider._columnData: value,
+      BaseDatabaseProvider._columnData: GZipUtil.encode(value),
     });
     return id >= 0;
   }
@@ -118,7 +119,7 @@ class DatabaseProvider extends BaseDatabaseProvider<String> {
       whereArgs: [key],
     );
     if (list.isEmpty) return List.empty();
-    return list.map((e) => (e.values.first as String)).toList();
+    return list.map((e) => (GZipUtil.decode(e.values.first as String))).toList();
   }
 
   @override
@@ -129,7 +130,7 @@ class DatabaseProvider extends BaseDatabaseProvider<String> {
           BaseDatabaseProvider._columnKey: key,
           BaseDatabaseProvider._columnRequestDate: DateTime.now().toString(),
           BaseDatabaseProvider._columnExpiredDate: "-1",
-          BaseDatabaseProvider._columnData: value,
+          BaseDatabaseProvider._columnData: GZipUtil.encode(value),
         },
         where: '$BaseDatabaseProvider._columnKey = ?',
         whereArgs: [key]);
