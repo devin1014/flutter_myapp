@@ -1,6 +1,10 @@
 import 'package:flutter_router_demo/home/model/carousel.dart';
 import 'package:flutter_router_demo/home/model/model.dart';
+import 'package:json_annotation/json_annotation.dart';
 
+part 'root.g.dart';
+
+@JsonSerializable(createFactory: false, explicitToJson: true)
 class HomeRoot {
   HomeRoot(this.banner, this.heroList, this.contentList);
 
@@ -16,8 +20,11 @@ class HomeRoot {
     final mainList = appHomeMainFeed.map((e) => HomeItem.fromJson(e as Map<String, dynamic>)).toList();
     return HomeRoot(homeBanner, heroList, mainList);
   }
+
+  Map<String, dynamic> toJson() => _$HomeRootToJson(this);
 }
 
+@JsonSerializable(createFactory: false, explicitToJson: true)
 class HomeItem {
   static const String itemContentCarousel = "content_carousel";
   static const String itemStories = "stories";
@@ -40,22 +47,12 @@ class HomeItem {
   final String title;
   final CarouselInfo? value;
 
-  factory HomeItem.fromJson(Map<String, dynamic> json) => _$HomeItemFromJson(json);
-
-  static HomeItem _$HomeItemFromJson(Map<String, dynamic> json) => HomeItem(
+  factory HomeItem.fromJson(Map<String, dynamic> json) => HomeItem(
         json['id'] as int,
         json['type'] as String,
         json['title'] as String,
         json['value'] == null ? null : CarouselInfo.fromJson(json['value'] as Object, json['type'] as String),
       );
 
-  Map<String, dynamic> toJson(HomeItem item) => {
-        "id": item.id,
-        "type": item.type,
-        "title": item.title,
-        "value": item.value,
-      };
-
-  @override
-  String toString() => toJson(this).toString();
+  Map<String, dynamic> toJson() => _$HomeItemToJson(this);
 }

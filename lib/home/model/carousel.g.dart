@@ -6,6 +6,14 @@ part of 'carousel.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+Map<String, dynamic> _$CarouselInfoToJson(CarouselInfo instance) =>
+    <String, dynamic>{
+      'limit': instance.limit,
+      'isPremium': instance.isPremium,
+      'isPersonalized': instance.isPersonalized,
+      'list': instance.list.map((e) => e.toJson()).toList(),
+    };
+
 Map<String, dynamic> _$BaseCarouselToJson(BaseCarousel instance) =>
     <String, dynamic>{
       'nbaId': instance.id,
@@ -14,7 +22,7 @@ Map<String, dynamic> _$BaseCarouselToJson(BaseCarousel instance) =>
       'image': instance.image,
       'link': instance.link,
       'type': instance.type,
-      'hero': instance.hero,
+      'hero': instance.hero?.toJson(),
     };
 
 LinkCarousel _$LinkCarouselFromJson(Map<String, dynamic> json) => LinkCarousel(
@@ -39,7 +47,7 @@ Map<String, dynamic> _$LinkCarouselToJson(LinkCarousel instance) =>
       'image': instance.image,
       'link': instance.link,
       'type': instance.type,
-      'hero': instance.hero,
+      'hero': instance.hero?.toJson(),
       'releaseDate': instance.releaseDate,
       'useUpdatedDate': instance.useUpdatedDate,
     };
@@ -52,7 +60,7 @@ Map<String, dynamic> _$CardCarouselToJson(CardCarousel instance) =>
       'image': instance.image,
       'link': instance.link,
       'type': instance.type,
-      'hero': instance.hero,
+      'hero': instance.hero?.toJson(),
     };
 
 GameCarousel _$GameCarouselFromJson(Map<String, dynamic> json) => GameCarousel(
@@ -76,8 +84,8 @@ Map<String, dynamic> _$GameCarouselToJson(GameCarousel instance) =>
       'image': instance.image,
       'link': instance.link,
       'type': instance.type,
-      'hero': instance.hero,
-      'game': instance.game,
+      'hero': instance.hero?.toJson(),
+      'game': instance.game.toJson(),
     };
 
 VideoCarousel _$VideoCarouselFromJson(Map<String, dynamic> json) =>
@@ -105,11 +113,11 @@ Map<String, dynamic> _$VideoCarouselToJson(VideoCarousel instance) =>
       'image': instance.image,
       'link': instance.link,
       'type': instance.type,
-      'hero': instance.hero,
+      'hero': instance.hero?.toJson(),
       'releaseDate': instance.releaseDate,
       'entitlements': instance.entitlements,
       'videoIviCaid': instance.videoIviCaId,
-      'program': instance.program,
+      'program': instance.program.toJson(),
     };
 
 EventCarousel _$EventCarouselFromJson(Map<String, dynamic> json) =>
@@ -136,7 +144,7 @@ Map<String, dynamic> _$EventCarouselToJson(EventCarousel instance) =>
       'image': instance.image,
       'link': instance.link,
       'type': instance.type,
-      'hero': instance.hero,
+      'hero': instance.hero?.toJson(),
       'seoName': instance.seoName,
       'datetimeUtc': instance.datetimeUtc,
       'entitlements': instance.entitlements,
@@ -150,10 +158,10 @@ Map<String, dynamic> _$TvShowCarouselToJson(TvShowCarousel instance) =>
       'image': instance.image,
       'link': instance.link,
       'type': instance.type,
-      'hero': instance.hero,
+      'hero': instance.hero?.toJson(),
       'name': instance.name,
       'permalink': instance.permalink,
-      'latest': instance.latest,
+      'latest': instance.latest?.toJson(),
       'imagePortrait': instance.imagePortrait,
       'imageLandscape': instance.imageLandscape,
     };

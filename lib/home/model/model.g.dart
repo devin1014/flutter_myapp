@@ -48,7 +48,7 @@ Map<String, dynamic> _$StoryToJson(Story instance) => <String, dynamic>{
       'name': instance.name,
       'description': instance.description,
       'beginDate': instance.beginDate,
-      'programs': instance.programs,
+      'programs': instance.programs.map((e) => e.toJson()).toList(),
     };
 
 StoryProgram _$StoryProgramFromJson(Map<String, dynamic> json) => StoryProgram(

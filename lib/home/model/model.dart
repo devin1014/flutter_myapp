@@ -2,7 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'model.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class HomeBanner {
   HomeBanner(
     this.image,
@@ -26,7 +26,7 @@ class HomeBanner {
 /// ------------------------------------------------------------------------------------------
 /// --- Hero
 /// ------------------------------------------------------------------------------------------
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class HomeHero {
   const HomeHero(this.image);
 
@@ -40,7 +40,7 @@ class HomeHero {
 /// ------------------------------------------------------------------------------------------
 /// --- Story
 /// ------------------------------------------------------------------------------------------
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class Story {
   final int id;
   final String image;
@@ -63,7 +63,7 @@ class Story {
   Map<String, dynamic> toJson() => _$StoryToJson(this);
 }
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class StoryProgram {
   StoryProgram(
     this.id,

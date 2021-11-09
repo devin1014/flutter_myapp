@@ -8,6 +8,7 @@ part 'carousel.g.dart';
 /// -----------------------------------------------------------
 /// ---- Carousel Info
 /// -----------------------------------------------------------
+@JsonSerializable(createFactory: false, explicitToJson: true)
 class CarouselInfo {
   CarouselInfo(
     this.limit,
@@ -18,6 +19,7 @@ class CarouselInfo {
   final int limit;
   final bool isPremium;
   final bool isPersonalized;
+  @JsonKey(name: "list")
   List<BaseCarousel> list = [];
 
   /// the object is content of 'value'.
@@ -48,13 +50,13 @@ class CarouselInfo {
     return result;
   }
 
-  Map<String, dynamic> toJson(CarouselInfo info) => {"list": list.toString()};
+  Map<String, dynamic> toJson() => _$CarouselInfoToJson(this);
 }
 
 /// -----------------------------------------------------------
 /// ---- BaseCarousel
 /// -----------------------------------------------------------
-@JsonSerializable(createFactory: false)
+@JsonSerializable(createFactory: false, explicitToJson: true)
 class BaseCarousel {
   static const String carouselTypeVideo = "video";
   static const String carouselTypeGame = "game";
@@ -113,12 +115,14 @@ class BaseCarousel {
         return LinkCarousel.fromJson(json);
     }
   }
+
+  Map<String, dynamic> toJson() => _$BaseCarouselToJson(this);
 }
 
 /// -----------------------------------------------------------
 /// ---- LinkCarousel
 /// -----------------------------------------------------------
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class LinkCarousel extends BaseCarousel {
   LinkCarousel(
     id,
@@ -144,7 +148,7 @@ class LinkCarousel extends BaseCarousel {
 /// -----------------------------------------------------------
 /// ---- CardCarousel
 /// -----------------------------------------------------------
-@JsonSerializable(createFactory: false)
+@JsonSerializable(createFactory: false, explicitToJson: true)
 class CardCarousel extends BaseCarousel {
   CardCarousel(
     id,
@@ -170,7 +174,7 @@ class CardCarousel extends BaseCarousel {
 /// -----------------------------------------------------------
 /// ---- GameCarousel
 /// -----------------------------------------------------------
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class GameCarousel extends BaseCarousel {
   GameCarousel(
     id,
@@ -193,7 +197,7 @@ class GameCarousel extends BaseCarousel {
 /// -----------------------------------------------------------
 /// ---- VideoCarousel
 /// -----------------------------------------------------------
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class VideoCarousel extends BaseCarousel {
   VideoCarousel(
     id,
@@ -222,7 +226,7 @@ class VideoCarousel extends BaseCarousel {
 /// -----------------------------------------------------------
 /// ---- EventCarousel
 /// -----------------------------------------------------------
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class EventCarousel extends BaseCarousel {
   EventCarousel(
     id,
@@ -248,7 +252,7 @@ class EventCarousel extends BaseCarousel {
 /// -----------------------------------------------------------
 /// ---- TvShow
 /// -----------------------------------------------------------
-@JsonSerializable(createFactory: false)
+@JsonSerializable(createFactory: false, explicitToJson: true)
 class TvShowCarousel extends BaseCarousel {
   TvShowCarousel(
     id,

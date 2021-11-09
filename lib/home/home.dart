@@ -8,6 +8,7 @@ import 'package:flutter_router_demo/home/news.dart';
 import 'package:flutter_router_demo/home/single.dart';
 import 'package:flutter_router_demo/home/tv.dart';
 import 'package:flutter_router_demo/home/tv_show.dart';
+import 'package:flutter_router_demo/util/logger.dart';
 import 'package:flutter_router_demo/util/parser.dart';
 import 'package:flutter_router_demo/widget/loading.dart';
 
@@ -33,6 +34,8 @@ class _HomePageState extends State<HomePage> {
   void _loadData(String path) async {
     Map<String, dynamic> object = await Parser.parseAssets(path);
     final homeRoot = HomeRoot.fromJson(object);
+    Log.i("root: ${homeRoot.toJson()}");
+    Log.i("root length: ${homeRoot.toJson().toString().length}");
     setState(() {
       _homeRoot = homeRoot;
     });
