@@ -7,9 +7,9 @@ part of 'root.dart';
 // **************************************************************************
 
 Map<String, dynamic> _$HomeRootToJson(HomeRoot instance) => <String, dynamic>{
-      'banner': instance.banner.toJson(),
-      'heroList': instance.heroList.map((e) => e.toJson()).toList(),
-      'contentList': instance.contentList.map((e) => e.toJson()).toList(),
+      'tuneInBanner': instance.banner.toJson(),
+      'homeHeroCarousel': instance.heroList.map((e) => e.toJson()).toList(),
+      'appHomeMainFeed': instance.contentList.map((e) => e.toJson()).toList(),
     };
 
 Map<String, dynamic> _$HomeItemToJson(HomeItem instance) => <String, dynamic>{

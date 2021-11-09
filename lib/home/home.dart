@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_router_demo/common/db/provider/model_provider.dart';
 import 'package:flutter_router_demo/home/card.dart';
 import 'package:flutter_router_demo/home/content.dart';
 import 'package:flutter_router_demo/home/hero.dart';
@@ -32,10 +35,25 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _loadData(String path) async {
-    Map<String, dynamic> object = await Parser.parseAssets(path);
-    final homeRoot = HomeRoot.fromJson(object);
-    Log.i("root: ${homeRoot.toJson()}");
-    Log.i("root length: ${homeRoot.toJson().toString().length}");
+    final HomeRoot homeRoot;
+    final provider = DatabaseProvider();
+    await provider.open(delete: true);
+    final caches = await provider.get(path);
+    if (caches.isNotEmpty) {
+      final cache = caches.first;
+      Log.i("cache: ${cache!.length}\n$cache");
+      Map<String, dynamic> object = Parser.parse(cache);
+      homeRoot = HomeRoot.fromJson(object);
+    } else {
+      Map<String, dynamic> object = await Parser.parseAssets(path);
+      homeRoot = HomeRoot.fromJson(object);
+
+      ///NOTE:object.toJson().toString(), missing ''!
+      // final data = homeRoot.toJson().toString();
+      final data = json.encode(object);
+      Log.i("root: ${data.length}\n$data");
+      provider.insert(path, data);
+    }
     setState(() {
       _homeRoot = homeRoot;
     });

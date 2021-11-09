@@ -1,6 +1,5 @@
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_router_demo/common/db/provider/model_provider.dart';
 import 'package:flutter_router_demo/home/model/carousel.dart';
 
 import 'model/root.dart';
@@ -20,15 +19,6 @@ class _HomeTvPageState extends State<HomeTvPage> {
   @override
   void initState() {
     super.initState();
-
-    Future.sync(() async {
-      final provider = SingleProgramProvider();
-      await provider.open();
-      final list = widget._homeItem.value!.list;
-      for (var element in list) {
-        provider.insert((element as VideoCarousel).program);
-      }
-    });
   }
 
   static const _edgePadding = EdgeInsets.symmetric(horizontal: 12);

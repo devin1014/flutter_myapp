@@ -8,8 +8,11 @@ part 'root.g.dart';
 class HomeRoot {
   HomeRoot(this.banner, this.heroList, this.contentList);
 
+  @JsonKey(name: "tuneInBanner")
   final HomeBanner banner;
+  @JsonKey(name: "homeHeroCarousel")
   final List<BaseCarousel> heroList;
+  @JsonKey(name: "appHomeMainFeed")
   final List<HomeItem> contentList;
 
   factory HomeRoot.fromJson(Map<String, dynamic> json) {
