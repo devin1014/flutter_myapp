@@ -5,6 +5,8 @@ import 'package:flutter_router_demo/pages/game.dart';
 import 'package:flutter_router_demo/pages/setting.dart';
 import 'package:flutter_router_demo/pages/video.dart';
 import 'package:flutter_router_demo/routers.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 void main() => Global.init().then((value) => runApp(const MyApp()));
 
@@ -30,9 +32,30 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  _MainPageState();
+  final List<Widget> pages = [
+    const HomePage(),
+    const GamePage(),
+    const VideoPage(),
+    const SettingPage(),
+  ];
 
-  final List<Widget> pages = [const HomePage(), const GamePage(), const VideoPage(), const SettingPage()];
+  @override
+  void initState() {
+    super.initState();
+
+    Future.sync(() async {
+      var status = await Permission.storage.status;
+      if (!status.isGranted) {
+        status = await Permission.storage.request();
+        if (!status.isGranted) {
+          Fluttertoast.showToast(msg: "not allow permission: 'storage'");
+          if (status.isPermanentlyDenied) {
+            openAppSettings();
+          }
+        }
+      }
+    });
+  }
 
   int _selectedIndex = 0;
 

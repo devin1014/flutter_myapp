@@ -9,6 +9,7 @@ import 'package:flutter_router_demo/home/hero.dart';
 import 'package:flutter_router_demo/home/model/root.dart';
 import 'package:flutter_router_demo/home/news.dart';
 import 'package:flutter_router_demo/home/single.dart';
+import 'package:flutter_router_demo/home/story.dart';
 import 'package:flutter_router_demo/home/tv.dart';
 import 'package:flutter_router_demo/home/tv_show.dart';
 import 'package:flutter_router_demo/util/logger.dart';
@@ -92,6 +93,10 @@ class _HomePageState extends State<HomePage> {
           case HomeItem.itemSingleItem:
             list.add(_buildItemTitle(""));
             list.add(SliverToBoxAdapter(child: HomeSinglePage(item)));
+            break;
+          case HomeItem.itemStories:
+            list.add(_buildItemTitle("Story"));
+            list.add(const SliverToBoxAdapter(child: HomeStoryPage()));
             break;
           default:
             break;
