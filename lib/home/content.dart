@@ -2,6 +2,7 @@ import 'package:extended_image/extended_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_router_demo/home/model/carousel.dart';
+import 'package:flutter_router_demo/routers.dart';
 import 'package:flutter_router_demo/widget/horizontal_list_view.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -26,11 +27,6 @@ class _HomeContentPageState extends State<HomeContentPage> {
 
   @override
   Widget build(BuildContext context) {
-    // if (_contentItem == null) {
-    //   return const LoadingPage.fixHeight(164);
-    // } else if (_contentItem!.value == null || _contentItem!.value!.list.isEmpty) {
-    //   return const ErrorPage(errMsg: "NoData");
-    // } else {
     final list = widget._homeItem.value!.list;
     return SizedBox(
         width: double.infinity,
@@ -43,7 +39,14 @@ class _HomeContentPageState extends State<HomeContentPage> {
           itemBuilder: (context, index) {
             return InkWell(
               onTap: () {
-                Fluttertoast.showToast(msg: "tap: $index}");
+                Fluttertoast.showToast(msg: "tap: $index");
+                if (list[index] is LinkCarousel) {
+                  Routers.router.navigateTo(
+                    context,
+                    Routers.webView,
+                    routeSettings: RouteSettings(arguments: list[index].link),
+                  );
+                }
               },
               child: _buildHomeContent(list[index]),
             );

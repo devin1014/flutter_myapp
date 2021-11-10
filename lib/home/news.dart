@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../routers.dart';
+import 'model/carousel.dart';
 import 'model/root.dart';
 
 class HomeNewsPage extends StatefulWidget {
@@ -21,21 +23,33 @@ class _HomeNewsState extends State<HomeNewsPage> {
 
   @override
   Widget build(BuildContext context) {
+    final list = widget._homeItem.value!.list;
     return SliverFixedExtentList(
       itemExtent: 40,
       delegate: SliverChildBuilderDelegate(
         (context, index) {
-          return SizedBox(
-            height: 40,
-            child: Align(
-                alignment: Alignment.centerLeft,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 12),
-                  child: Text(widget._homeItem.value!.list[index].title),
-                )),
+          return InkWell(
+            onTap: () {
+              if (list[index] is LinkCarousel) {
+                Routers.router.navigateTo(
+                  context,
+                  Routers.webView,
+                  routeSettings: RouteSettings(arguments: list[index].link),
+                );
+              }
+            },
+            child: SizedBox(
+              height: 40,
+              child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                    child: Text(list[index].title),
+                  )),
+            ),
           );
         },
-        childCount: widget._homeItem.value!.list.length,
+        childCount: list.length,
       ),
     );
   }

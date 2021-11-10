@@ -6,6 +6,7 @@ import 'package:flutter_router_demo/pages/detail.dart';
 import 'package:flutter_router_demo/pages/game.dart';
 import 'package:flutter_router_demo/pages/setting.dart';
 import 'package:flutter_router_demo/pages/video.dart';
+import 'package:flutter_router_demo/widget/webview.dart';
 
 class Routers {
   static String main = "/";
@@ -14,6 +15,7 @@ class Routers {
   static String video = "/main/video";
   static String setting = "/main/setting";
   static String detail = "/detail";
+  static String webView = "/webView";
 
   static final _router = FluroRouter();
 
@@ -30,7 +32,30 @@ class Routers {
     _router.define(video, handler: _videoHandler);
     _router.define(setting, handler: _settingHandler);
     _router.define(detail, handler: _detailHandler);
+    _router.define(webView, handler: _webViewHandler);
     _init = true;
+  }
+
+  static Future navigateTo(BuildContext context, String path,
+      {bool replace = false,
+      bool clearStack = false,
+      bool maintainState = true,
+      bool rootNavigator = false,
+      TransitionType? transition,
+      Duration? transitionDuration,
+      RouteTransitionsBuilder? transitionBuilder,
+      RouteSettings? routeSettings}) {
+    return router.navigateTo(
+      context,
+      path,
+      replace: replace,
+      clearStack: clearStack,
+      maintainState: maintainState,
+      rootNavigator: rootNavigator,
+      transition: transition,
+      transitionDuration: transitionDuration,
+      routeSettings: routeSettings,
+    );
   }
 }
 
@@ -60,4 +85,9 @@ Handler get _settingHandler => Handler(handlerFunc: (_, Map<String, List<String>
 
 Handler get _detailHandler => Handler(handlerFunc: (_, Map<String, List<String>> parameters) {
       return const DetailPage();
+    });
+
+Handler get _webViewHandler => Handler(handlerFunc: (_, Map<String, List<String>> parameters) {
+      final url = (_?.settings?.arguments as String?) ?? "https://flutter.dev";
+      return WebViewPage(url);
     });

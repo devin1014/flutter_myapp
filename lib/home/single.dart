@@ -2,6 +2,7 @@ import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_router_demo/home/home.dart';
 
+import '../routers.dart';
 import 'model/carousel.dart';
 import 'model/root.dart';
 
@@ -37,27 +38,38 @@ class _HomeSingleState extends State<HomeSinglePage> {
           color: Colors.white,
           boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 2.0)],
         ),
-        child: Stack(
-          alignment: Alignment.topCenter,
-          children: [
-            SizedBox(width: 330, height: 190, child: ExtendedImage.network(carousel.image, fit: BoxFit.cover)),
-            Positioned(
-              left: 16,
-              top: 200,
-              right: 16,
-              child: Text(
-                carousel.title,
-                style: const TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold),
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
+        child: InkWell(
+          onTap: () {
+            if (carousel is LinkCarousel) {
+              Routers.router.navigateTo(
+                context,
+                Routers.webView,
+                routeSettings: RouteSettings(arguments: carousel.link),
+              );
+            }
+          },
+          child: Stack(
+            alignment: Alignment.topCenter,
+            children: [
+              SizedBox(width: 330, height: 190, child: ExtendedImage.network(carousel.image, fit: BoxFit.cover)),
+              Positioned(
+                left: 16,
+                top: 200,
+                right: 16,
+                child: Text(
+                  carousel.title,
+                  style: const TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
               ),
-            ),
-            const Positioned(
-              bottom: 10,
-              right: 16,
-              child: Icon(Icons.ios_share, color: Colors.grey, size: 20),
-            ),
-          ],
+              const Positioned(
+                bottom: 10,
+                right: 16,
+                child: Icon(Icons.ios_share, color: Colors.grey, size: 20),
+              ),
+            ],
+          ),
         ),
       ),
     );
