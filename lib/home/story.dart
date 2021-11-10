@@ -7,6 +7,8 @@ import 'package:flutter_router_demo/widget/horizontal_list_view.dart';
 import 'package:flutter_router_demo/widget/loading.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
+import '../routers.dart';
+
 class HomeStoryPage extends StatefulWidget {
   const HomeStoryPage({Key? key}) : super(key: key);
 
@@ -69,6 +71,7 @@ class _HomeStoryPageState extends State<HomeStoryPage> {
             InkWell(
               onTap: () {
                 Fluttertoast.showToast(msg: "click: ${story.name}");
+                Routers.router.navigateTo(context, Routers.videoPlayer);
               },
               child: const SizedBox.expand(),
             )

@@ -6,6 +6,7 @@ import 'package:flutter_router_demo/pages/detail.dart';
 import 'package:flutter_router_demo/pages/game.dart';
 import 'package:flutter_router_demo/pages/setting.dart';
 import 'package:flutter_router_demo/pages/video.dart';
+import 'package:flutter_router_demo/widget/video_player.dart';
 import 'package:flutter_router_demo/widget/webview.dart';
 
 class Routers {
@@ -16,6 +17,7 @@ class Routers {
   static String setting = "/main/setting";
   static String detail = "/detail";
   static String webView = "/webView";
+  static String videoPlayer = "/videoPlayer";
 
   static final _router = FluroRouter();
 
@@ -33,6 +35,7 @@ class Routers {
     _router.define(setting, handler: _settingHandler);
     _router.define(detail, handler: _detailHandler);
     _router.define(webView, handler: _webViewHandler);
+    _router.define(videoPlayer, handler: _videoPlayerHandler);
     _init = true;
   }
 
@@ -90,4 +93,8 @@ Handler get _detailHandler => Handler(handlerFunc: (_, Map<String, List<String>>
 Handler get _webViewHandler => Handler(handlerFunc: (_, Map<String, List<String>> parameters) {
       final url = (_?.settings?.arguments as String?) ?? "https://flutter.dev";
       return WebViewPage(url);
+    });
+
+Handler get _videoPlayerHandler => Handler(handlerFunc: (_, Map<String, List<String>> parameters) {
+      return const VideoPlayerPage();
     });

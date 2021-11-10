@@ -46,6 +46,8 @@ class _HomeContentPageState extends State<HomeContentPage> {
                     Routers.webView,
                     routeSettings: RouteSettings(arguments: list[index].link),
                   );
+                } else {
+                  Routers.router.navigateTo(context, Routers.videoPlayer);
                 }
               },
               child: _buildHomeContent(list[index]),
