@@ -45,6 +45,7 @@ dependencies:
   permission_handler: ^8.2.6
   webview_flutter: ^2.3.0
   video_player: ^2.2.7
+  pigeon: ^1.0.10
 
 dev_dependencies:
   flutter_test:

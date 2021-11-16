@@ -450,6 +450,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "3.7.0"
+  pigeon:
+    dependency: "direct main"
+    description:
+      name: pigeon
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "1.0.10"
   platform:
     dependency: transitive
     description:
