@@ -1,0 +1,8 @@
+#builders:
+#  languageBuilder:
+#    import: "package:flutter_router_demo/language/language_builder.dart"
+#    builder_factories: [ "languageBuilder" ]
+#    build_extensions: { ".dart": [ ".languageBuilder.g.part" ] }
+#    auto_apply: dependents
+#    build_to: source
+#    applies_builders: [ "source_gen|combining_builder" ]

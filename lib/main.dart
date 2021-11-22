@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_router_demo/global.dart';
 import 'package:flutter_router_demo/home/home.dart';
-import 'package:flutter_router_demo/language/language.dart';
+import 'package:flutter_router_demo/language/delegate.dart';
 import 'package:flutter_router_demo/pages/game.dart';
 import 'package:flutter_router_demo/pages/setting.dart';
 import 'package:flutter_router_demo/pages/video.dart';

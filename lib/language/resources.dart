@@ -1,5 +1,6 @@
-import 'package:flutter/widgets.dart';
+import 'package:flutter_router_demo/language/language_builder.dart';
 
+@MultipleLanguage()
 abstract class LanguageResource {
   String get name => "name";
 
@@ -13,10 +14,6 @@ abstract class LanguageResource {
 }
 
 class LanguageResourceGen extends LanguageResource {
-  static LanguageResourceGen of(BuildContext context) {
-    return Localizations.of(context, LanguageResourceGen);
-  }
-
   LanguageResourceGen(this._json);
 
   final Map<String, dynamic> _json;

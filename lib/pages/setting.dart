@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_router_demo/language/language.dart';
+import 'package:flutter_router_demo/language/delegate.dart';
 import 'package:flutter_router_demo/pigeon.dart';
 
 class SettingPage extends StatefulWidget {

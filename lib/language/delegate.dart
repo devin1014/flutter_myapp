@@ -49,27 +49,3 @@ class MyLocalizationsDelegate extends LocalizationsDelegate<MyLocalizations> {
     return (locale.languageCode + scriptCode).toLowerCase();
   }
 }
-
-class LogLocalizationsDelegate extends LocalizationsDelegate {
-  const LogLocalizationsDelegate._();
-
-  @override
-  bool isSupported(Locale locale) {
-    Log.i("isSupported: $locale");
-    return true;
-  }
-
-  @override
-  bool shouldReload(covariant LocalizationsDelegate old) {
-    Log.i("shouldReload: $old");
-    return false;
-  }
-
-  @override
-  Future load(Locale locale) async {
-    Log.i("load: $locale");
-    return MyLocalizations(<String, dynamic>{});
-  }
-
-  static const LocalizationsDelegate delegate = LogLocalizationsDelegate._();
-}
