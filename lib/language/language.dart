@@ -5,29 +5,12 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_router_demo/language/resources.dart';
 import 'package:flutter_router_demo/util/logger.dart';
 
-class MyLocalizations extends LanguageResource {
+class MyLocalizations extends LanguageResourceGen {
   static MyLocalizations of(BuildContext context) {
     return Localizations.of(context, MyLocalizations);
   }
 
-  MyLocalizations(this._json);
-
-  final Map<String, dynamic> _json;
-
-  @override
-  String get author => _json[super.author] ?? super.author;
-
-  @override
-  String get date => _json[super.date] ?? super.date;
-
-  @override
-  String get description => _json[super.description] ?? super.description;
-
-  @override
-  String get title => _json[super.title] ?? super.title;
-
-  @override
-  String get name => _json[super.name] ?? super.name;
+  MyLocalizations(_json) : super(_json);
 }
 
 /// -----------------------------------------------------------------------------
