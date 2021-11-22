@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_router_demo/global.dart';
 import 'package:flutter_router_demo/home/home.dart';
+import 'package:flutter_router_demo/language/language.dart';
 import 'package:flutter_router_demo/pages/game.dart';
 import 'package:flutter_router_demo/pages/setting.dart';
 import 'package:flutter_router_demo/pages/video.dart';
 import 'package:flutter_router_demo/routers.dart';
+import 'package:flutter_router_demo/util/logger.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -20,6 +23,26 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(primarySwatch: Colors.blue),
       onGenerateRoute: Routers.router.generator,
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        MyLocalizationsDelegate.delegate,
+        LogLocalizationsDelegate.delegate,
+      ],
+      supportedLocales: const [
+        Locale('en', 'US'),
+        Locale('zh', 'CN'),
+        Locale.fromSubtags(
+          languageCode: 'zh',
+          scriptCode: 'HK',
+          countryCode: 'CN',
+        ),
+      ],
+      localeListResolutionCallback: (List<Locale>? locales, Iterable<Locale> supportedLocales) {
+        Log.d("localeListResolutionCallback: ${locales?.toString()}");
+        Log.d("Iterable: ${supportedLocales.toString()}");
+        return locales?.first;
+      },
     );
   }
 }

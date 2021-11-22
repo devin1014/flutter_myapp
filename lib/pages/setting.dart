@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_router_demo/language/language.dart';
 import 'package:flutter_router_demo/pigeon.dart';
 
 class SettingPage extends StatefulWidget {
@@ -25,7 +26,20 @@ class _SettingPageState extends State<SettingPage> {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Text(list == null ? "SettingPage" : "${list.toString()} -> ${list!.length}"),
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(6),
+            child: Text(Localizations.localeOf(context).toString()),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(6),
+            child: Text(MyLocalizations.of(context).name),
+          ),
+          const SizedBox(height: 40),
+          Text(list == null ? "SettingPage" : "${list![0]} -> ${list!.length}"),
+        ],
+      ),
     );
   }
 
