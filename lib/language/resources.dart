@@ -13,23 +13,23 @@ abstract class LanguageResource {
   String get date => "date";
 }
 
-class LanguageResourceGen extends LanguageResource {
-  LanguageResourceGen(this._json);
-
-  final Map<String, dynamic> _json;
-
-  @override
-  String get author => _json[super.author] ?? super.author;
-
-  @override
-  String get date => _json[super.date] ?? super.date;
-
-  @override
-  String get description => _json[super.description] ?? super.description;
-
-  @override
-  String get title => _json[super.title] ?? super.title;
-
-  @override
-  String get name => _json[super.name] ?? super.name;
-}
+// class LanguageResourceGen extends LanguageResource {
+//   LanguageResourceGen(this._json);
+//
+//   final Map<String, dynamic> _json;
+//
+//   @override
+//   String get author => _json[super.author] ?? super.author;
+//
+//   @override
+//   String get date => _json[super.date] ?? super.date;
+//
+//   @override
+//   String get description => _json[super.description] ?? super.description;
+//
+//   @override
+//   String get title => _json[super.title] ?? super.title;
+//
+//   @override
+//   String get name => _json[super.name] ?? super.name;
+// }

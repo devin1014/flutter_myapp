@@ -1,8 +1,11 @@
-#builders:
-#  languageBuilder:
-#    import: "package:flutter_router_demo/language/language_builder.dart"
-#    builder_factories: [ "languageBuilder" ]
-#    build_extensions: { ".dart": [ ".languageBuilder.g.part" ] }
-#    auto_apply: dependents
-#    build_to: source
+builders:
+  languageBuilder:
+    import: "package:flutter_router_demo/language/language_builder.dart"
+    builder_factories: [ "languageBuilder" ]
+    build_extensions: { ".dart": [ ".g.part" ] }
+    build_to: source
+    auto_apply: root_package
+    defaults:
+      generate_for:
+        - lib/language/**
 #    applies_builders: [ "source_gen|combining_builder" ]
