@@ -23,10 +23,10 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(primarySwatch: Colors.blue),
       onGenerateRoute: Routers.router.generator,
-      localizationsDelegates: const [
+      localizationsDelegates: [
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
-        MyLocalizationsDelegate.delegate,
+        LanguageLocalizationsDelegate.delegate,
         //LogLocalizationsDelegate.delegate,
       ],
       supportedLocales: const [
