@@ -1,8 +1,11 @@
 import 'package:analyzer/dart/element/element.dart';
 import 'package:build/build.dart';
 import 'package:build/src/builder/build_step.dart' show BuildStep;
-import 'package:flutter_router_demo/language/language_builder.dart';
 import 'package:source_gen/source_gen.dart';
+
+class MultipleLanguage {
+  const MultipleLanguage();
+}
 
 class MultipleLanguageGenerator extends GeneratorForAnnotation<MultipleLanguage> {
   String _buildImportClass(Element element) {

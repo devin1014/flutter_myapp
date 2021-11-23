@@ -1,7 +1,11 @@
 {
-    "name": "英语",
+    "name": "en",
     "title": "title",
     "description": "description",
     "author": "author",
-    "date": "date"
+    "date": "date",
+    "mainTabHome": "home",
+    "mainTabGame": "game",
+    "mainTabVideo": "video",
+    "mainTabSetting": "setting"
 }

@@ -2,10 +2,10 @@ import 'dart:convert';
 
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_router_demo/language/resources.g.dart';
+import 'package:flutter_router_demo/language.g.dart';
 import 'package:flutter_router_demo/util/logger.dart';
 
-class MyLocalizations extends $LanguageResourceGen {
+class MyLocalizations extends $LanguageResource {
   static MyLocalizations of(BuildContext context) {
     return Localizations.of(context, MyLocalizations);
   }

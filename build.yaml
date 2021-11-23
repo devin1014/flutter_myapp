@@ -1,11 +1,38 @@
 builders:
-  languageBuilder:
+  #  languageBuilder:
+  #    import: "package:flutter_router_demo/language/language_builder.dart"
+  #    builder_factories: [ "languageBuilder" ]
+  #    build_extensions: { ".dart": [ ".g.part" ] }
+  #    build_to: source
+  #    auto_apply: root_package
+  #    defaults:
+  #      generate_for:
+  #        - lib/language/**
+  #    applies_builders: [ "source_gen|combining_builder" ]
+
+  textBuilder:
     import: "package:flutter_router_demo/language/language_builder.dart"
-    builder_factories: [ "languageBuilder" ]
-    build_extensions: { ".dart": [ ".g.part" ] }
+    builder_factories: [ "textBuilder" ]
+    build_extensions: { ".json": [ ".g.dart" ] }
     build_to: source
     auto_apply: root_package
     defaults:
       generate_for:
-        - lib/language/**
-#    applies_builders: [ "source_gen|combining_builder" ]
+        - resources/language/default.json
+
+targets:
+  $default:
+    sources:
+      # Need to replicate the default whitelist here or other build will break:
+      - $package$
+      - "benchmark/**"
+      - "bin/**"
+      - "example/**"
+      - "lib/**"
+      - "test/**"
+      - "tool/**"
+      - "web/**"
+      - "pubspec.yaml"
+      - "pubspec.lock"
+      # Project: custom src direction
+      - "resources/**"

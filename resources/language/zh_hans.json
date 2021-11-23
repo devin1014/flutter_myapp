@@ -3,5 +3,9 @@
     "title": "标题",
     "description": "描述",
     "author": "作者",
-    "date": "日期"
+    "date": "日期",
+    "mainTabHome": "首页",
+    "mainTabGame": "比赛",
+    "mainTabVideo": "视频",
+    "mainTabSetting": "设置"
 }

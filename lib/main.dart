@@ -93,11 +93,11 @@ class _MainPageState extends State<MainPage> {
     return Scaffold(
       appBar: AppBar(title: const Text("Flutter Demo")),
       bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-          BottomNavigationBarItem(icon: Icon(Icons.gamepad), label: "Game"),
-          BottomNavigationBarItem(icon: Icon(Icons.video_call), label: "Video"),
-          BottomNavigationBarItem(icon: Icon(Icons.settings), label: "Setting"),
+        items: <BottomNavigationBarItem>[
+          BottomNavigationBarItem(icon: const Icon(Icons.home), label: MyLocalizations.of(context).mainTabHome),
+          BottomNavigationBarItem(icon: const Icon(Icons.gamepad), label: MyLocalizations.of(context).mainTabGame),
+          BottomNavigationBarItem(icon: const Icon(Icons.video_call), label: MyLocalizations.of(context).mainTabVideo),
+          BottomNavigationBarItem(icon: const Icon(Icons.settings), label: MyLocalizations.of(context).mainTabSetting),
         ],
         selectedItemColor: Colors.blue,
         unselectedItemColor: Colors.black,

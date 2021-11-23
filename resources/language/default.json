@@ -1,7 +1,11 @@
 {
-    "name": "__name",
-    "title": "__title",
-    "description": "__description",
-    "author": "__author",
-    "date": "__date"
+    "name": "",
+    "title": "",
+    "description": "",
+    "author": "",
+    "date": "",
+    "mainTabHome": "",
+    "mainTabGame": "",
+    "mainTabVideo": "",
+    "mainTabSetting": ""
 }
