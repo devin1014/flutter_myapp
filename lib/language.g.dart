@@ -1,6 +1,6 @@
 /// Generated, do not edit
 /// Source: flutter_router_demo|resources/language/default.json
-/// Date: 2021-11-23 13:57:12.688487
+/// Date: 2021-11-23 15:56:52.453478
 /// Size: 9
 abstract class $LanguageResource {
   $LanguageResource(this._json);

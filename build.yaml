@@ -18,7 +18,7 @@ builders:
     auto_apply: root_package
     defaults:
       generate_for:
-        - resources/language/default.json
+        - resources/**/default.json
 
 targets:
   $default:
