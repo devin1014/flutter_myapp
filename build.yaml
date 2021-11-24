@@ -1,15 +1,17 @@
+# https://juejin.cn/post/6844903967177064461#heading-6
 builders:
   #  languageBuilder:
   #    import: "package:flutter_router_demo/language/language_builder.dart"
   #    builder_factories: [ "languageBuilder" ]
   #    build_extensions: { ".dart": [ ".g.part" ] }
   #    build_to: source
-  #    auto_apply: root_package
+  #  auto_apply: root_package
   #    defaults:
   #      generate_for:
   #        - lib/language/**
   #    applies_builders: [ "source_gen|combining_builder" ]
 
+  # 如何自定义参数？
   textBuilder:
     import: "package:flutter_router_demo/language/language_builder.dart"
     builder_factories: [ "textBuilder" ]
