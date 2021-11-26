@@ -1,3 +1,4 @@
+import 'package:flutter_router_demo/common/http/http.dart';
 import 'package:flutter_router_demo/routers.dart';
 
 class Global {
@@ -5,5 +6,6 @@ class Global {
   static Future init() async {
     //TODO: init data
     Routers.initialize();
+    http.setup();
   }
 }

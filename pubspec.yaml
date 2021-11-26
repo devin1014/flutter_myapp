@@ -47,6 +47,10 @@ dependencies:
   webview_flutter: ^2.3.0
   video_player: ^2.2.7
   pigeon: ^1.0.10
+  dio: ^4.0.4
+  dio_cookie_manager: ^2.0.0
+  dio_cache_interceptor: ^3.0.3
+  dio_http2_adapter: ^2.0.0
   #intl: ^0.17.0
 
 dev_dependencies:

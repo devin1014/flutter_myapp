@@ -16,6 +16,7 @@ class _SettingPageState extends State<SettingPage> {
   void initState() {
     super.initState();
     Future.sync(() async {
+      //TODO: memory leaks
       final list = await _getBook();
       setState(() {
         this.list = list;
