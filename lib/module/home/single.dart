@@ -1,8 +1,8 @@
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_router_demo/home/home.dart';
+import 'package:flutter_router_demo/module/home/home.dart';
+import 'package:flutter_router_demo/routers.dart';
 
-import '../routers.dart';
 import 'model/carousel.dart';
 import 'model/root.dart';
 

@@ -1,13 +1,12 @@
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_router_demo/home/model/model.dart';
+import 'package:flutter_router_demo/module/home/model/model.dart';
+import 'package:flutter_router_demo/routers.dart';
 import 'package:flutter_router_demo/util/image.dart';
 import 'package:flutter_router_demo/util/parser.dart';
 import 'package:flutter_router_demo/widget/horizontal_list_view.dart';
 import 'package:flutter_router_demo/widget/loading.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-
-import '../routers.dart';
 
 class HomeStoryPage extends StatefulWidget {
   const HomeStoryPage({Key? key}) : super(key: key);

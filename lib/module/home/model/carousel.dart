@@ -1,7 +1,8 @@
-import 'package:flutter_router_demo/game/model/model.dart';
-import 'package:flutter_router_demo/home/model/model.dart';
-import 'package:flutter_router_demo/program/model/model.dart';
+import 'package:flutter_router_demo/module/game/model/model.dart';
+import 'package:flutter_router_demo/module/program/model/model.dart';
 import 'package:json_annotation/json_annotation.dart';
+
+import 'model.dart';
 
 part 'carousel.g.dart';
 

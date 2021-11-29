@@ -1,7 +1,7 @@
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_router_demo/home/home.dart';
-import 'package:flutter_router_demo/home/model/carousel.dart';
+import 'package:flutter_router_demo/module/home/home.dart';
+import 'package:flutter_router_demo/module/home/model/carousel.dart';
 import 'package:flutter_router_demo/widget/horizontal_list_view.dart';
 
 import 'model/root.dart';

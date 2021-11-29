@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_router_demo/global.dart';
-import 'package:flutter_router_demo/home/home.dart';
 import 'package:flutter_router_demo/language/delegate.dart';
 import 'package:flutter_router_demo/pages/game.dart';
 import 'package:flutter_router_demo/pages/setting.dart';
@@ -10,6 +9,8 @@ import 'package:flutter_router_demo/routers.dart';
 import 'package:flutter_router_demo/util/logger.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:permission_handler/permission_handler.dart';
+
+import 'module/home/home.dart';
 
 void main() => Global.init().then((value) => runApp(const MyApp()));
 

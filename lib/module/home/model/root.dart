@@ -1,5 +1,5 @@
-import 'package:flutter_router_demo/home/model/carousel.dart';
-import 'package:flutter_router_demo/home/model/model.dart';
+import 'package:flutter_router_demo/module/home/model/carousel.dart';
+import 'package:flutter_router_demo/module/home/model/model.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'root.g.dart';
