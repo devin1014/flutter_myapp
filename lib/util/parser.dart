@@ -18,7 +18,7 @@ class Parser {
     dynamic object = json.decode(data);
     if (object is Map && object.isNotEmpty) {
       if (root?.isNotEmpty == true) {
-        return object[root];
+        return object[root] ?? object;
       } else if (deep != null && deep > 0) {
         return getDeepObject(object, deep);
       }
