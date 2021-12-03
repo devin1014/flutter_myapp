@@ -3,6 +3,8 @@ import 'dart:math';
 
 import 'package:flutter/services.dart';
 
+import 'compress.dart';
+
 class Parser {
   Parser._();
 
@@ -12,7 +14,7 @@ class Parser {
     //TODO:delay a few seconds.
     await Future.delayed(Duration(seconds: Random().nextInt(5)), () {});
     String data = await rootBundle.loadString(path);
-    return parse(data, "results");
+    return parse(Base64Util.decode(data), "results");
   }
 
   static dynamic parse(String? data, [String? root, int? deep]) {

@@ -16,3 +16,14 @@ class GZipUtil {
     return utf8.decode(gzipBytes);
   }
 }
+
+class Base64Util {
+  static String encode(String input) {
+    final content = utf8.encode(input);
+    return base64Encode(content);
+  }
+
+  static String decode(String data) {
+    return String.fromCharCodes(base64Decode(data));
+  }
+}
