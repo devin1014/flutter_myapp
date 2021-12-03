@@ -42,7 +42,7 @@ class _CustomImageState extends State<CustomImage> {
 
     Image.network(
       widget.url,
-      frameBuilder: (context ,child,frame,loaded){
+      frameBuilder: (context, child, frame, loaded) {
         return FlutterLogo();
       },
       errorBuilder: (context, error, stack) {

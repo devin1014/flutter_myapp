@@ -2,22 +2,34 @@ import 'package:flutter/material.dart';
 import 'package:flutter_router_demo/module/game/pages/schedule_list.dart';
 
 class ScheduleTabPage extends StatefulWidget {
-  const ScheduleTabPage({Key? key}) : super(key: key);
+  const ScheduleTabPage({
+    Key? key,
+    required this.dates,
+    required this.currentIndex,
+  }) : super(key: key);
+
+  final List<DateTime> dates;
+  final int currentIndex;
 
   @override
-  State<StatefulWidget> createState() => _ScheduleTabPageState();
+  State<StatefulWidget> createState() => _ScheduleTabPageState(currentIndex);
 }
 
 class _ScheduleTabPageState extends State<ScheduleTabPage> {
-  final PageController _pageController = PageController(initialPage: 5);
-  final ScrollController _scrollController = ScrollController(initialScrollOffset: 5 * 96);
+  _ScheduleTabPageState(int defaultIndex) : _currentIndex = defaultIndex;
+
+  late PageController _pageController;
+  late ScrollController _scrollController;
   final GlobalKey _anchorKey = GlobalKey();
   double _tabWidth = 0;
   double _offsetX = 0;
+  int _currentIndex;
 
   @override
   void initState() {
     super.initState();
+    _pageController = PageController(initialPage: _currentIndex);
+    _scrollController = ScrollController(initialScrollOffset: _currentIndex * 96);
     _pageController.addListener(() {
       // print("page: ${_pageController.page}");
     });
@@ -41,16 +53,16 @@ class _ScheduleTabPageState extends State<ScheduleTabPage> {
             key: _anchorKey,
             scrollDirection: Axis.horizontal,
             controller: _scrollController,
-            itemCount: 10,
+            itemCount: widget.dates.length,
             itemExtent: 96,
             itemBuilder: (context, index) {
+              final date = widget.dates[index];
               return InkWell(
                 onTap: () {
-                  // _scrollTab(index);
                   _scrollPage(index);
                 },
                 child: Center(
-                  child: Text("index:[$index]"),
+                  child: Text("${date.month}-${date.day}"),
                 ),
               );
             },
@@ -58,7 +70,7 @@ class _ScheduleTabPageState extends State<ScheduleTabPage> {
         ),
         Expanded(
           child: PageView.builder(
-              itemCount: 10,
+              itemCount: widget.dates.length,
               controller: _pageController,
               onPageChanged: (index) {
                 print("onPageChanged: $index");
@@ -66,7 +78,7 @@ class _ScheduleTabPageState extends State<ScheduleTabPage> {
               },
               physics: const PageScrollPhysics(parent: BouncingScrollPhysics()),
               itemBuilder: (context, index) {
-                return const SchedulePage();
+                return SchedulePage(dateTime: widget.dates[index]);
               }),
         )
       ],

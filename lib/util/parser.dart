@@ -8,6 +8,8 @@ class Parser {
 
   static Future<dynamic> parseAssets(String path) async {
     //TODO:delay a few seconds.
+    //TODO:delay a few seconds.
+    //TODO:delay a few seconds.
     await Future.delayed(Duration(seconds: Random().nextInt(5)), () {});
     String data = await rootBundle.loadString(path);
     return parse(data, "results");

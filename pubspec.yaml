@@ -87,6 +87,7 @@ flutter:
     - data/story_167.json
     - data/home_landing.json
     - data/schedule_1129.json
+    - data/teams.json
     - resources/language/default.json
     - resources/language/en.json
     - resources/language/zh_hans.json

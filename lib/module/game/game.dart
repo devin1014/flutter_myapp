@@ -9,3 +9,16 @@ extension GameExtension on Game {
 
   bool isUnAvailable() => gameState == Game.gameStateUnavailable;
 }
+
+List<DateTime> buildDates() {
+  final list = <DateTime>[];
+  final now = DateTime.now();
+  for (var i = -30; i < 0; i++) {
+    list.add(now.add(Duration(days: i)));
+  }
+  list.add(now);
+  for (var i = 1; i <= 30; i++) {
+    list.add(now.add(Duration(days: i)));
+  }
+  return list;
+}

@@ -1,15 +1,25 @@
+import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_router_demo/module/game/model/model.dart';
+import 'package:flutter_router_demo/util/date.dart';
+import 'package:flutter_router_demo/util/image.dart';
 import 'package:flutter_router_demo/util/parser.dart';
 
 class SchedulePage extends StatefulWidget {
-  const SchedulePage({Key? key}) : super(key: key);
+  const SchedulePage({Key? key, required DateTime dateTime})
+      : _dateTime = dateTime,
+        super(key: key);
+
+  final DateTime _dateTime;
 
   @override
   State<StatefulWidget> createState() => _SchedulePageState();
 }
 
 class _SchedulePageState extends State<SchedulePage> {
+  static const dividerSize = 14.0;
+  static const edge_padding = 10.0;
+
   @override
   void initState() {
     super.initState();
@@ -27,13 +37,20 @@ class _SchedulePageState extends State<SchedulePage> {
 
   @override
   Widget build(BuildContext context) {
-    if (_result == null) {
-      return const Center(child: CircularProgressIndicator());
-    } else if (_result!.games.isEmpty) {
-      return _buildError("NO GAMES");
-    } else {
-      return _buildList(_result!.games);
+    Widget _buildContent() {
+      if (_result == null) {
+        return const Center(child: CircularProgressIndicator());
+      } else if (_result!.games.isEmpty) {
+        return _buildError("NO GAMES");
+      } else {
+        return _buildList(_result!.games);
+      }
     }
+
+    return DecoratedBox(
+      decoration: const BoxDecoration(color: Color(0xfff0f0f0)),
+      child: _buildContent(),
+    );
   }
 
   Widget _buildError(String message) {
@@ -49,21 +66,26 @@ class _SchedulePageState extends State<SchedulePage> {
   }
 
   Widget _buildList(List<Game> list) {
+    Widget _buildItem(Game game) {
+      switch (game.gameState) {
+        case Game.gameStateUpcoming:
+          return _buildUpcoming(game);
+        default:
+          return _buildLiveArchive(game);
+      }
+    }
+
     return ListView.separated(
-        padding: const EdgeInsets.symmetric(vertical: 12),
+        padding: const EdgeInsets.symmetric(vertical: edge_padding),
         itemBuilder: (context, index) {
-          switch (list[index].gameState) {
-            case Game.gameStateUpcoming:
-              return _buildUpcoming(list[index]);
-            case Game.gameStateLive:
-              return _buildLive(list[index]);
-            default:
-              return _buildArchive(list[index]);
-          }
+          return InkWell(
+            onTap: () {
+              //TODO
+            },
+            child: _buildItem(list[index]),
+          );
         },
-        separatorBuilder: (context, index) {
-          return const SizedBox(height: 12);
-        },
+        separatorBuilder: (context, index) => const SizedBox(height: dividerSize),
         itemCount: list.length);
   }
 
@@ -74,7 +96,7 @@ class _SchedulePageState extends State<SchedulePage> {
         width: double.infinity,
         height: 196,
         decoration: BoxDecoration(
-          color: const Color(0xFFe0e0e0),
+          color: Colors.white,
           border: Border.all(color: Colors.white, width: 0.5),
           borderRadius: const BorderRadius.all(Radius.circular(8.0)),
         ),
@@ -85,31 +107,146 @@ class _SchedulePageState extends State<SchedulePage> {
 
   Widget _buildUpcoming(Game game) {
     return _buildItemBackground(
-      child: Center(
-        child: Text("Upcoming\n"
-            "${game.awayTeam} vs ${game.homeTeam}\n"
-            "${game.date}\n"),
+      child: Column(
+        children: [
+          // top
+          _buildGameBroadcast(game),
+          //center
+          Expanded(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const SizedBox(width: 12, height: double.infinity),
+                _buildTeamInfo(ImageUtil.getTeamLogo(game.homeTeam), game.homeTeam, game.homeRecord),
+                Expanded(
+                  child: SizedBox.expand(
+                    child: Center(
+                      child: Text(
+                        parseDate(game.date),
+                        style: const TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ),
+                ),
+                _buildTeamInfo(ImageUtil.getTeamLogo(game.awayTeam), game.awayTeam, game.awayRecord),
+                const SizedBox(width: 12, height: double.infinity),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
 
-  Widget _buildLive(Game game) {
+  Widget _buildLiveArchive(Game game) {
+    final isLive = game.gameState == Game.gameStateLive;
     return _buildItemBackground(
-      child: Center(
-        child: Text("Live\n"
-            "${game.awayTeam} vs ${game.homeTeam}\n"
-            "${game.awayScore} - ${game.homeScore}\n"),
+      child: Column(
+        children: [
+          // top
+          _buildGameBroadcast(game),
+          //center
+          Expanded(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const SizedBox(width: 12, height: double.infinity),
+                _buildTeamInfo(ImageUtil.getTeamLogo(game.homeTeam), game.homeTeam, game.homeRecord),
+                Padding(
+                  padding: const EdgeInsets.all(12),
+                  child: Text(
+                    game.homeScore.toString(),
+                    style: const TextStyle(color: Colors.black, fontSize: 24, fontWeight: FontWeight.bold),
+                  ),
+                ),
+                Expanded(
+                  child: SizedBox.expand(
+                    child: Center(
+                      child: Text(
+                        isLive ? "直播" : "终场",
+                        style: TextStyle(
+                            color: isLive ? Colors.red : Colors.black, fontSize: 14, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(12),
+                  child: Text(
+                    game.awayScore.toString(),
+                    style: const TextStyle(color: Colors.black, fontSize: 24, fontWeight: FontWeight.bold),
+                  ),
+                ),
+                _buildTeamInfo(ImageUtil.getTeamLogo(game.awayTeam), game.awayTeam, game.awayRecord),
+                const SizedBox(width: 12, height: double.infinity),
+              ],
+            ),
+          ),
+          SizedBox(
+            width: double.infinity,
+            height: 48,
+            child: Row(
+              children: [
+                Expanded(child: _buildTabButton("观看", () {})),
+                const Divider(height: double.infinity, color: Colors.grey),
+                Expanded(child: _buildTabButton("收听", () {})),
+                const Divider(height: double.infinity, color: Colors.grey),
+                Expanded(child: _buildTabButton("技术统计", () {})),
+              ],
+            ),
+          )
+        ],
       ),
     );
   }
 
-  Widget _buildArchive(Game game) {
-    return _buildItemBackground(
-      child: Center(
-        child: Text("Archive\n"
-            "${game.awayTeam} vs ${game.homeTeam}\n"
-            "${game.awayScore} - ${game.homeScore}\n"),
+  Widget _buildGameBroadcast(Game game) {
+    return SizedBox(
+      width: double.infinity,
+      height: 40,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: const [
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 12),
+            child: Text("Type"),
+          )
+        ],
       ),
+    );
+  }
+
+  Widget _buildTabButton(String text, VoidCallback? onPressed) {
+    return TextButton(
+        onPressed: onPressed,
+        child: Text(
+          text,
+          style: const TextStyle(color: Colors.blue, fontSize: 16, fontWeight: FontWeight.bold),
+        ));
+  }
+
+  Widget _buildTeamInfo(String image, String teamName, String teamRecord) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        SizedBox(
+          width: 64,
+          height: 64,
+          child: ExtendedImage.network(image, fit: BoxFit.cover),
+        ),
+        Text(
+          teamName,
+          style: const TextStyle(color: Colors.black, fontSize: 14, fontWeight: FontWeight.bold),
+        ),
+        Text(
+          teamRecord,
+          style: const TextStyle(color: Colors.grey, fontSize: 16, fontWeight: FontWeight.bold),
+        )
+      ],
     );
   }
 }
