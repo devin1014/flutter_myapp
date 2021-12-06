@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_router_demo/module/game/pages/schedule_list.dart';
+import 'package:flutter_router_demo/util/date.dart';
 
 class ScheduleTabPage extends StatefulWidget {
   const ScheduleTabPage({
@@ -12,24 +13,40 @@ class ScheduleTabPage extends StatefulWidget {
   final int currentIndex;
 
   @override
-  State<StatefulWidget> createState() => _ScheduleTabPageState(currentIndex);
+  State<StatefulWidget> createState() => _ScheduleTabPageState();
 }
 
 class _ScheduleTabPageState extends State<ScheduleTabPage> {
-  _ScheduleTabPageState(int defaultIndex) : _currentIndex = defaultIndex;
+  _ScheduleTabPageState();
 
+  static const _tabItemWidth = 54.0;
   late PageController _pageController;
   late ScrollController _scrollController;
   final GlobalKey _anchorKey = GlobalKey();
   double _tabWidth = 0;
   double _offsetX = 0;
-  int _currentIndex;
+  int _currentIndex = 0;
+  var _date = "";
+  var _currentYearMonth = "";
 
   @override
   void initState() {
     super.initState();
+    final now = DateTime.now();
+    _date = "${now.month} ${now.year}";
+    _currentIndex = widget.currentIndex;
     _pageController = PageController(initialPage: _currentIndex);
-    _scrollController = ScrollController(initialScrollOffset: _currentIndex * 96);
+    _scrollController = ScrollController(initialScrollOffset: _currentIndex * _tabItemWidth);
+    _scrollController.addListener(() {
+      final index = _scrollController.offset ~/ _tabItemWidth;
+      final _date = widget.dates.first.add(Duration(days: index));
+      // print("index: $index");
+      final _ym = "${_date.year}${_date.month}";
+      if (_currentYearMonth != _ym) {
+        _currentYearMonth = _ym;
+        print("date: $_currentYearMonth");
+      }
+    });
     _pageController.addListener(() {
       // print("page: ${_pageController.page}");
     });
@@ -47,6 +64,15 @@ class _ScheduleTabPageState extends State<ScheduleTabPage> {
     return Column(
       children: [
         SizedBox(
+          height: 36,
+          child: Center(
+            child: Text(
+              _date,
+              style: const TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+          ),
+        ),
+        SizedBox(
           width: double.infinity,
           height: 54,
           child: ListView.builder(
@@ -54,16 +80,13 @@ class _ScheduleTabPageState extends State<ScheduleTabPage> {
             scrollDirection: Axis.horizontal,
             controller: _scrollController,
             itemCount: widget.dates.length,
-            itemExtent: 96,
+            itemExtent: _tabItemWidth,
             itemBuilder: (context, index) {
-              final date = widget.dates[index];
               return InkWell(
                 onTap: () {
                   _scrollPage(index);
                 },
-                child: Center(
-                  child: Text("${date.month}-${date.day}"),
-                ),
+                child: _buildTimeTab(widget.dates[index]),
               );
             },
           ),
@@ -85,10 +108,28 @@ class _ScheduleTabPageState extends State<ScheduleTabPage> {
     );
   }
 
+  Widget _buildTimeTab(DateTime dateTime) => Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text(
+            getWeekDay(dateTime.weekday),
+            style: const TextStyle(color: Colors.black, fontSize: 14, fontWeight: FontWeight.bold),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(6),
+            child: Text(
+              dateTime.day.toString(),
+              style: const TextStyle(color: Colors.black, fontSize: 14, fontWeight: FontWeight.bold),
+            ),
+          )
+        ],
+      );
+
   void _scrollTab(int index) {
     _calculateOffset();
     _scrollController.animateTo(
-      index.toDouble() * 96 - _offsetX,
+      index.toDouble() * _tabItemWidth - _offsetX,
       duration: const Duration(milliseconds: 300),
       curve: Curves.easeInOut,
     );
@@ -107,7 +148,7 @@ class _ScheduleTabPageState extends State<ScheduleTabPage> {
     if (_offsetX == 0) {
       final renderBox = _anchorKey.currentContext?.findRenderObject() as RenderBox;
       final offset = renderBox.localToGlobal(Offset.zero);
-      _offsetX = (renderBox.size.width + offset.dx - 96) / 2.0;
+      _offsetX = (renderBox.size.width + offset.dx - _tabItemWidth) / 2.0;
       _tabWidth = renderBox.size.width;
     }
   }
