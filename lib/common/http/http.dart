@@ -27,3 +27,12 @@ class Http {
         allowPostMethod: false,
       );
 }
+
+class Url {
+  Url._();
+
+  static String getSchedule({String season = "2021", required DateTime dateTime}) {
+    return "https://nlnbamdnyc-a.akamaihd.net/fs/nba/feeds_s2019"
+        "/schedule_atv/$season/${dateTime.month}_${dateTime.day}.js";
+  }
+}

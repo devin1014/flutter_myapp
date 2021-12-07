@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_router_demo/common/http/http.dart';
 import 'package:flutter_router_demo/module/game/model/model.dart';
 import 'package:flutter_router_demo/util/date.dart';
 import 'package:flutter_router_demo/util/image.dart';
@@ -18,15 +21,26 @@ class SchedulePage extends StatefulWidget {
 
 class _SchedulePageState extends State<SchedulePage> {
   static const dividerSize = 14.0;
-  static const edge_padding = 10.0;
+  static const edgePadding = 10.0;
 
   @override
   void initState() {
     super.initState();
-    _loadData("data/schedule_1129.json");
+    // _loadData("data/schedule_1129.json");
+    _load(widget._dateTime);
   }
 
   Games? _result;
+
+  void _load(DateTime dateTime) async {
+    final String data = (await http.dio.get(Url.getSchedule(dateTime: dateTime))).data;
+    final values = data.split("=");
+    final result = values.length == 1 ? values[0] : values[1];
+    final games = Games.fromJson(jsonDecode(result));
+    setState(() {
+      _result = games;
+    });
+  }
 
   void _loadData(String path) async {
     final games = Games.fromJson(await Parser.parseAssets(path));
@@ -76,7 +90,7 @@ class _SchedulePageState extends State<SchedulePage> {
     }
 
     return ListView.separated(
-        padding: const EdgeInsets.symmetric(vertical: edge_padding),
+        padding: const EdgeInsets.symmetric(vertical: edgePadding),
         itemBuilder: (context, index) {
           return InkWell(
             onTap: () {

@@ -65,11 +65,16 @@ class _ScheduleTabPageState extends State<ScheduleTabPage> {
       children: [
         SizedBox(
           height: 36,
-          child: Center(
-            child: Text(
-              _dateTag,
-              style: const TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
-            ),
+          child: Stack(
+            children: [
+              Center(
+                child: Text(
+                  _dateTag,
+                  style: const TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
+                ),
+              ),
+              const Positioned(right: 12, top: 6, child: Icon(Icons.today))
+            ],
           ),
         ),
         SizedBox(
