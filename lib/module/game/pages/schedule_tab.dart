@@ -26,14 +26,13 @@ class _ScheduleTabPageState extends State<ScheduleTabPage> {
   double _tabWidth = 0;
   double _offsetX = 0;
   int _currentIndex = 0;
-  var _date = "";
-  var _currentYearMonth = "";
+  var _dateTag = "";
 
   @override
   void initState() {
     super.initState();
     final now = DateTime.now();
-    _date = "${now.month} ${now.year}";
+    _dateTag = "${now.month} ${now.year}";
     _currentIndex = widget.currentIndex;
     _pageController = PageController(initialPage: _currentIndex);
     _scrollController = ScrollController(initialScrollOffset: _currentIndex * _tabItemWidth);
@@ -41,10 +40,11 @@ class _ScheduleTabPageState extends State<ScheduleTabPage> {
       final index = _scrollController.offset ~/ _tabItemWidth;
       final _date = widget.dates.first.add(Duration(days: index));
       // print("index: $index");
-      final _ym = "${_date.year}${_date.month}";
-      if (_currentYearMonth != _ym) {
-        _currentYearMonth = _ym;
-        print("date: $_currentYearMonth");
+      final _ym = "${_date.month} ${_date.year}";
+      if (_dateTag != _ym) {
+        _dateTag = _ym;
+        print("date: $_dateTag");
+        setState(() {});
       }
     });
     _pageController.addListener(() {
@@ -67,7 +67,7 @@ class _ScheduleTabPageState extends State<ScheduleTabPage> {
           height: 36,
           child: Center(
             child: Text(
-              _date,
+              _dateTag,
               style: const TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
             ),
           ),
@@ -86,7 +86,7 @@ class _ScheduleTabPageState extends State<ScheduleTabPage> {
                 onTap: () {
                   _scrollPage(index);
                 },
-                child: _buildTimeTab(widget.dates[index]),
+                child: _buildTimeTab(widget.dates[index], index == _currentIndex),
               );
             },
           ),
@@ -96,8 +96,11 @@ class _ScheduleTabPageState extends State<ScheduleTabPage> {
               itemCount: widget.dates.length,
               controller: _pageController,
               onPageChanged: (index) {
-                print("onPageChanged: $index");
+                print("onPageChanged: $_currentIndex");
                 _scrollTab(index);
+                setState(() {
+                  _currentIndex = index;
+                });
               },
               physics: const PageScrollPhysics(parent: BouncingScrollPhysics()),
               itemBuilder: (context, index) {
@@ -108,7 +111,13 @@ class _ScheduleTabPageState extends State<ScheduleTabPage> {
     );
   }
 
-  Widget _buildTimeTab(DateTime dateTime) => Column(
+  Widget _buildTimeTab(DateTime dateTime, bool selected) {
+    final decoration = selected
+        ? const BoxDecoration(border: Border(bottom: BorderSide(color: Colors.blue, width: 3)))
+        : const BoxDecoration();
+    return DecoratedBox(
+      decoration: decoration,
+      child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
@@ -124,7 +133,9 @@ class _ScheduleTabPageState extends State<ScheduleTabPage> {
             ),
           )
         ],
-      );
+      ),
+    );
+  }
 
   void _scrollTab(int index) {
     _calculateOffset();
