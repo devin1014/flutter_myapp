@@ -25,7 +25,7 @@ class SingleGame {
   Map<String, dynamic> toJson() => _$SingleGameToJson(this);
 }
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class Game {
   static const gameStateUnavailable = -1;
   static const gameStateUpcoming = 0;
@@ -61,8 +61,9 @@ class Game {
   final int awayScore;
   @JsonKey(name: "vr")
   final String awayRecord;
+  Broadcast? broadcast;
 
-  const Game(
+  Game(
     this.id,
     this.cameras,
     this.cameraAngles,
@@ -79,6 +80,10 @@ class Game {
     this.homeRecord,
   );
 
+  String get broadcastID => broadcast?.broadcastID ?? "";
+
+  String get broadcastName => broadcast?.broadcasterName ?? "";
+
   factory Game.fromJson(Map<String, dynamic> json) => _$GameFromJson(json);
 
   Map<String, dynamic> toJson() => _$GameToJson(this);
@@ -93,4 +98,24 @@ class Games {
   factory Games.fromJson(Map<String, dynamic> json) => _$GamesFromJson(json);
 
   Map<String, dynamic> toJson() => _$GamesToJson(this);
+}
+
+@JsonSerializable()
+class Broadcast {
+  Broadcast(
+    this.gameID,
+    this.broadcastID,
+    this.broadcasterName,
+  );
+
+  @JsonKey(defaultValue: "")
+  final String gameID;
+  @JsonKey(defaultValue: "")
+  final String broadcastID;
+  @JsonKey(defaultValue: "")
+  final String broadcasterName;
+
+  factory Broadcast.fromJson(Map<String, dynamic> json) => _$BroadcastFromJson(json);
+
+  Map<String, dynamic> toJson() => _$BroadcastToJson(this);
 }

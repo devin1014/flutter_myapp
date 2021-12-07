@@ -6,7 +6,7 @@ import 'package:flutter_router_demo/common/http/http.dart';
 import 'package:flutter_router_demo/module/game/model/model.dart';
 import 'package:flutter_router_demo/util/date.dart';
 import 'package:flutter_router_demo/util/image.dart';
-import 'package:flutter_router_demo/util/parser.dart';
+import 'package:flutter_router_demo/util/util.dart';
 
 class SchedulePage extends StatefulWidget {
   const SchedulePage({Key? key, required DateTime dateTime})
@@ -33,19 +33,26 @@ class _SchedulePageState extends State<SchedulePage> {
   Games? _result;
 
   void _load(DateTime dateTime) async {
-    final String data = (await http.dio.get(Url.getSchedule(dateTime: dateTime))).data;
-    final values = data.split("=");
-    final result = values.length == 1 ? values[0] : values[1];
-    final games = Games.fromJson(jsonDecode(result));
-    setState(() {
-      _result = games;
-    });
-  }
-
-  void _loadData(String path) async {
-    final games = Games.fromJson(await Parser.parseAssets(path));
-    setState(() {
-      _result = games;
+    Future.wait([
+      http.dio.get(Url.getSchedule(dateTime: dateTime)),
+      http.dio.get(Url.getBroadcast(dateTime: dateTime)),
+    ]).then((value) {
+      // schedule
+      final values = value[0].data.split("=");
+      final result = values.length == 1 ? values[0] : values[1];
+      final games = Games.fromJson(jsonDecode(result));
+      // broadcast
+      final List<dynamic> resultSets = value[1].data["resultSets"];
+      final List<dynamic> completeList = (resultSets[1]["CompleteGameList"]);
+      final broadcastList = completeList.map((e) => Broadcast.fromJson(e as Map<String, dynamic>)).toList();
+      // merge
+      MergeUtil.merge(games.games, broadcastList);
+      // notify
+      setState(() {
+        _result = games;
+      });
+    }).catchError((e) {
+      print(e);
     });
   }
 
@@ -223,10 +230,13 @@ class _SchedulePageState extends State<SchedulePage> {
       height: 40,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
-        children: const [
+        children: [
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 12),
-            child: Text("Type"),
+            padding: const EdgeInsets.symmetric(horizontal: 12),
+            child: Text(
+              game.broadcastName,
+              style: const TextStyle(fontSize: 14, fontWeight: FontWeight.normal),
+            ),
           )
         ],
       ),

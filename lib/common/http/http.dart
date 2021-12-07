@@ -35,4 +35,15 @@ class Url {
     return "https://nlnbamdnyc-a.akamaihd.net/fs/nba/feeds_s2019"
         "/schedule_atv/$season/${dateTime.month}_${dateTime.day}.js";
   }
+
+  static String getBroadcast({
+    String leagueID = "00",
+    String regionID = "1",
+    String season = "2021",
+    required DateTime dateTime,
+  }) {
+    final date = "${dateTime.month}/${dateTime.day}/${dateTime.year}";
+    return "https://stats.nba.com/stats/internationalbroadcasterschedule"
+        "?LeagueID=$leagueID&Season=$season&RegionID=$regionID&Date=$date&EST=Y";
+  }
 }

@@ -9,7 +9,7 @@ class GamePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return ScheduleTabPage(
       dates: buildDates(),
-      currentIndex: 5,
+      currentIndex: 30,
     );
   }
 }

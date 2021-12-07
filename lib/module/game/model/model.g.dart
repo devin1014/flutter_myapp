@@ -40,7 +40,9 @@ Game _$GameFromJson(Map<String, dynamic> json) => Game(
       json['h'] as String,
       json['hs'] as int? ?? -1,
       json['hr'] as String,
-    );
+    )..broadcast = json['broadcast'] == null
+        ? null
+        : Broadcast.fromJson(json['broadcast'] as Map<String, dynamic>);
 
 Map<String, dynamic> _$GameToJson(Game instance) => <String, dynamic>{
       'id': instance.id,
@@ -57,6 +59,7 @@ Map<String, dynamic> _$GameToJson(Game instance) => <String, dynamic>{
       'v': instance.awayTeam,
       'vs': instance.awayScore,
       'vr': instance.awayRecord,
+      'broadcast': instance.broadcast?.toJson(),
     };
 
 Games _$GamesFromJson(Map<String, dynamic> json) => Games(
@@ -67,4 +70,16 @@ Games _$GamesFromJson(Map<String, dynamic> json) => Games(
 
 Map<String, dynamic> _$GamesToJson(Games instance) => <String, dynamic>{
       'games': instance.games.map((e) => e.toJson()).toList(),
+    };
+
+Broadcast _$BroadcastFromJson(Map<String, dynamic> json) => Broadcast(
+      json['gameID'] as String? ?? '',
+      json['broadcastID'] as String? ?? '',
+      json['broadcasterName'] as String? ?? '',
+    );
+
+Map<String, dynamic> _$BroadcastToJson(Broadcast instance) => <String, dynamic>{
+      'gameID': instance.gameID,
+      'broadcastID': instance.broadcastID,
+      'broadcasterName': instance.broadcasterName,
     };

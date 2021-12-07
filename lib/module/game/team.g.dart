@@ -7,8 +7,8 @@ part of 'team.dart';
 // **************************************************************************
 
 Team _$TeamFromJson(Map<String, dynamic> json) => Team(
-      json['internalid'] as String? ?? "",
-      json['teamid'] as dynamic,
+      json['internalid'] as String? ?? '',
+      json['teamid'],
       json['teamkey'] as String,
       json['teamname'] as String,
       json['cityname'] as String,
@@ -35,4 +35,5 @@ Map<String, dynamic> _$TeamToJson(Team instance) => <String, dynamic>{
       'arena': instance.arena,
       'founded': instance.founded,
       'headCoach': instance.coach,
+      'external': instance.external,
     };
