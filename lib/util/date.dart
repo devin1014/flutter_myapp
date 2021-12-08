@@ -1,8 +1,9 @@
-const weekDays = ["Mon", "Tue", "Wen", "Thu", "Fri", "Sat", "Sun"];
+/// weekday from 1-7.
+const _weekDays = ["", "Mon", "Tue", "Wen", "Thu", "Fri", "Sat", "Sun"];
 
-String getWeekDay(int day) => weekDays[day % weekDays.length];
+String getWeekDay(int day) => _weekDays[day % _weekDays.length];
 
 String parseDate(String date) {
   final dateTime = DateTime.parse(date);
-  return "${dateTime.hour}:${dateTime.minute}\n${weekDays[dateTime.weekday]}, ${dateTime.month}/${dateTime.day}";
+  return "${dateTime.hour}:${dateTime.minute}\n${_weekDays[dateTime.weekday]}, ${dateTime.month}/${dateTime.day}";
 }

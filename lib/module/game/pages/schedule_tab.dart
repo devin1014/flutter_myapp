@@ -24,29 +24,10 @@ class _ScheduleTabPageState extends State<ScheduleTabPage> {
   late PageController _pageController;
   late ScrollController _scrollController;
   final GlobalKey _anchorKey = GlobalKey();
-  double _tabWidth = 0;
-  double _offsetX = 0;
   final dateTagNotifier = ValueNotifier<String>("");
   final pagePositionNotifier = ValueNotifier(0);
-
-  void _onPageChanged() {
-    if (_offsetX == 0) {
-      final renderBox = _anchorKey.currentContext?.findRenderObject() as RenderBox;
-      final offset = renderBox.localToGlobal(Offset.zero);
-      _offsetX = (renderBox.size.width + offset.dx - _tabItemWidth) / 2.0;
-      _tabWidth = renderBox.size.width;
-    }
-
-    void _scroll(ScrollController scroll, double offset) {
-      scroll.animateTo(offset, duration: const Duration(milliseconds: 300), curve: Curves.easeInOut);
-    }
-
-    final index = pagePositionNotifier.value;
-
-    _scroll(_scrollController, index.toDouble() * _tabItemWidth - _offsetX);
-
-    _scroll(_pageController, index.toDouble() * _tabWidth);
-  }
+  double _offsetX = 0;
+  bool scrolling = false;
 
   @override
   void initState() {
@@ -54,7 +35,7 @@ class _ScheduleTabPageState extends State<ScheduleTabPage> {
     final now = DateTime.now();
     dateTagNotifier.value = "${now.month} ${now.year}";
     pagePositionNotifier.value = widget.currentIndex;
-    pagePositionNotifier.addListener(_onPageChanged);
+    pagePositionNotifier.addListener(_onPageChangedListener);
     _pageController = PageController(initialPage: widget.currentIndex);
     _scrollController = ScrollController(initialScrollOffset: widget.currentIndex * _tabItemWidth);
     _scrollController.addListener(() {
@@ -68,9 +49,26 @@ class _ScheduleTabPageState extends State<ScheduleTabPage> {
     //_pageController.addListener(() {});
   }
 
+  void _onPageChangedListener() {
+    if (_offsetX == 0) {
+      final renderBox = _anchorKey.currentContext?.findRenderObject() as RenderBox;
+      final offset = renderBox.localToGlobal(Offset.zero);
+      _offsetX = (renderBox.size.width + offset.dx - _tabItemWidth) / 2.0;
+    }
+
+    final index = pagePositionNotifier.value;
+
+    const duration = Duration(milliseconds: 300);
+
+    _scrollController.animateTo(index.toDouble() * _tabItemWidth - _offsetX,
+        duration: duration, curve: Curves.easeInOut);
+
+    _pageController.animateToPage(index, duration: duration, curve: Curves.easeInOut);
+  }
+
   @override
   void dispose() {
-    pagePositionNotifier.removeListener(_onPageChanged);
+    pagePositionNotifier.removeListener(_onPageChangedListener);
     pagePositionNotifier.dispose();
     dateTagNotifier.dispose();
     _pageController.dispose();
@@ -130,6 +128,7 @@ class _ScheduleTabPageState extends State<ScheduleTabPage> {
                 itemBuilder: (context, index) {
                   return InkWell(
                     onTap: () {
+                      scrolling = true;
                       model.value = index;
                     },
                     child: _buildTimeTab(widget.dates[index], index == model.value),
@@ -148,7 +147,11 @@ class _ScheduleTabPageState extends State<ScheduleTabPage> {
               itemCount: widget.dates.length,
               controller: _pageController,
               onPageChanged: (index) {
-                model.value = index;
+                if (!scrolling) {
+                  model.value = index;
+                } else if (model.value == index) {
+                  scrolling = false;
+                }
               },
               physics: const PageScrollPhysics(parent: BouncingScrollPhysics()),
               itemBuilder: (context, index) => SchedulePage(dateTime: widget.dates[index])),
