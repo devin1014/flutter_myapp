@@ -88,6 +88,9 @@ class _SchedulePageState extends State<SchedulePage> {
 
   Widget _buildList(List<Game> list) {
     Widget _buildItem(Game game) {
+      if (game.isEvent) {
+        return _buildEvent(game);
+      }
       switch (game.gameState) {
         case Game.gameStateUpcoming:
           return _buildUpcoming(game);
@@ -122,6 +125,28 @@ class _SchedulePageState extends State<SchedulePage> {
           borderRadius: const BorderRadius.all(Radius.circular(8.0)),
         ),
         child: child,
+      ),
+    );
+  }
+
+  Widget _buildEvent(Game game) {
+    return _buildItemBackground(
+      child: Column(
+        children: [
+          // top
+          _buildGameBroadcast(game),
+          //center
+          Expanded(
+            child: Container(
+                padding: const EdgeInsets.all(12),
+                alignment: Alignment.center,
+                child: Text(
+                  game.description,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold),
+                )),
+          ),
+        ],
       ),
     );
   }

@@ -39,35 +39,34 @@ class Game {
   final int cameras;
   @JsonKey(defaultValue: "")
   final String cameraAngles;
-  @JsonKey(name: "d")
+  @JsonKey(name: "d", defaultValue: "")
   final String date;
-  @JsonKey(name: "st")
+  @JsonKey(name: "st", defaultValue: "")
   final String startTime;
-  @JsonKey(name: "et")
+  @JsonKey(name: "et", defaultValue: "")
   final String endTime;
   @JsonKey(name: "gs", defaultValue: -1)
   final int gameState;
-  @JsonKey(name: "s")
-  final int season;
-  @JsonKey(name: "h")
+  @JsonKey(name: "h", defaultValue: "")
   final String homeTeam;
   @JsonKey(name: "hs", defaultValue: -1)
   final int homeScore;
-  @JsonKey(name: "hr")
+  @JsonKey(name: "hr", defaultValue: "")
   final String homeRecord;
-  @JsonKey(name: "v")
+  @JsonKey(name: "v", defaultValue: "")
   final String awayTeam;
   @JsonKey(name: "vs", defaultValue: -1)
   final int awayScore;
-  @JsonKey(name: "vr")
+  @JsonKey(name: "vr", defaultValue: "")
   final String awayRecord;
+  @JsonKey(name: "desc", defaultValue: "")
+  final String description;
   Broadcast? broadcast;
 
   Game(
     this.id,
     this.cameras,
     this.cameraAngles,
-    this.season,
     this.date,
     this.startTime,
     this.endTime,
@@ -78,11 +77,14 @@ class Game {
     this.homeTeam,
     this.homeScore,
     this.homeRecord,
+    this.description,
   );
 
   String get broadcastID => broadcast?.broadcastID ?? "";
 
   String get broadcastName => broadcast?.broadcasterName ?? "";
+
+  bool get isEvent => homeTeam.isEmpty && awayTeam.isEmpty;
 
   factory Game.fromJson(Map<String, dynamic> json) => _$GameFromJson(json);
 
