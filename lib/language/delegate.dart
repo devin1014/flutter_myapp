@@ -26,7 +26,7 @@ class LanguageLocalizationParser extends AbstractLocalizationParser {
   }
 
   @override
-  String getLocalizationLibPath() => "resources/language";
+  String getLocalizationLibPath() => "assets/language";
 
   @override
   T build<T extends LanguageLocalization>(Map<String, dynamic> json) {

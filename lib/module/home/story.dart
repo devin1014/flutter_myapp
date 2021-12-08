@@ -23,7 +23,7 @@ class _HomeStoryPageState extends State<HomeStoryPage> {
   @override
   void initState() {
     super.initState();
-    _loadData("data/story_167.json");
+    _loadData("assets/data/story_167.json");
   }
 
   void _loadData(String path) async {

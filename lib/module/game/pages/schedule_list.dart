@@ -26,7 +26,6 @@ class _SchedulePageState extends State<SchedulePage> {
   @override
   void initState() {
     super.initState();
-    // _loadData("data/schedule_1129.json");
     _load(widget._dateTime);
   }
 

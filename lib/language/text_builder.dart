@@ -19,7 +19,7 @@ class TextBuilder implements Builder {
 
   @override
   Future<void> build(BuildStep buildStep) async {
-    //inputId: flutter_router_demo|resources/language/default.json
+    //inputId: flutter_router_demo|assets/language/default.json
     final inputId = buildStep.inputId;
     final outputPath = options.config['output'] ?? defaultOutputPath;
     //inputId.path.replaceFirst(inputId.extension, _extensions[inputId.extension]!.first)

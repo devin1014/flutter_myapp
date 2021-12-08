@@ -1,5 +1,5 @@
 /// Generated, do not edit
-/// Source: flutter_router_demo|resources/language/default.json
+/// Source: flutter_router_demo|assets/language/default.json
 /// Date: 2021-12-07 15:13:22.052859
 /// Size: 28
 abstract class $LanguageResource {

@@ -37,4 +37,4 @@ targets:
       - "pubspec.yaml"
       - "pubspec.lock"
       # Project: custom src direction
-      - "resources/**"
+      - "assets/language/**"

@@ -32,13 +32,13 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    _loadData("data/home_landing.json");
+    _loadData("assets/data/home_landing.json");
   }
 
   void _loadData(String path) async {
     final HomeRoot homeRoot;
     final provider = DatabaseProvider();
-    await provider.open(delete: true);
+    await provider.open();
     final caches = await provider.get(path);
     if (caches.isNotEmpty) {
       final cache = caches.first;

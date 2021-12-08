@@ -11,7 +11,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   test("parse test", () async {
-    const path = "data/schedule_1129.json";
+    const path = "assets/data/schedule_1129.json";
     final List<Game> list = [];
     final result = await Parser.parseAssets(path);
     for (var element in (result["games"] as List)) {

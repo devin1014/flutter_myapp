@@ -83,7 +83,7 @@ class TeamManager {
   final Map<String, Team> _teamMap = {};
 
   void init() async {
-    Map<String, dynamic> teams = (await Parser.parseAssets("data/teams.json"))["teams"];
+    Map<String, dynamic> teams = (await Parser.parseAssets("assets/data/teams.json"))["teams"];
     for (var element in teams.values) {
       final team = Team.fromJson(element as Map<String, dynamic>);
       _instance.teamList.add(team);
