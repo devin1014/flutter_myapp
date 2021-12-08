@@ -1,10 +1,10 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_router_demo/main.dart';
-import 'package:flutter_router_demo/pages/detail.dart';
-import 'package:flutter_router_demo/pages/game.dart';
-import 'package:flutter_router_demo/pages/setting.dart';
-import 'package:flutter_router_demo/pages/video.dart';
+import 'package:flutter_router_demo/module/detail/detail.dart';
+import 'package:flutter_router_demo/module/game/pages/game_page.dart';
+import 'package:flutter_router_demo/module/settings/setting.dart';
+import 'package:flutter_router_demo/module/program/video.dart';
 import 'package:flutter_router_demo/widget/video_player.dart';
 import 'package:flutter_router_demo/widget/webview.dart';
 

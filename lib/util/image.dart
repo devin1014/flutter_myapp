@@ -1,4 +1,4 @@
-import 'package:flutter_router_demo/module/game/team.dart';
+import 'package:flutter_router_demo/module/game/model/team.dart';
 
 bool international = true;
 

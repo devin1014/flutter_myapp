@@ -1,5 +1,5 @@
 import 'package:flutter_router_demo/common/http/http.dart';
-import 'package:flutter_router_demo/module/game/team.dart';
+import 'package:flutter_router_demo/module/game/model/team.dart';
 import 'package:flutter_router_demo/routers.dart';
 
 class Global {
