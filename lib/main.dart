@@ -4,7 +4,7 @@ import 'package:flutter_router_demo/global.dart';
 import 'package:flutter_router_demo/language/delegate.dart';
 import 'package:flutter_router_demo/module/game/pages/game_page.dart';
 import 'package:flutter_router_demo/module/settings/setting.dart';
-import 'package:flutter_router_demo/module/program/video.dart';
+import 'package:flutter_router_demo/module/standings/pages/standings_page.dart';
 import 'package:flutter_router_demo/routers.dart';
 import 'package:flutter_router_demo/util/logger.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -55,10 +55,11 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
+  //TODO:
   final List<Widget> pages = [
     const HomePage(),
     const GamePage(),
-    const VideoPage(),
+    const StandingsPage(),
     const SettingPage(),
   ];
 
@@ -80,7 +81,7 @@ class _MainPageState extends State<MainPage> {
     });
   }
 
-  int _selectedIndex = 0;
+  int _selectedIndex = 2;
 
   void _onItemTapped(int index) {
     setState(() {

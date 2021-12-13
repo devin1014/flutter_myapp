@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_router_demo/main.dart';
 import 'package:flutter_router_demo/module/detail/detail.dart';
 import 'package:flutter_router_demo/module/game/pages/game_page.dart';
-import 'package:flutter_router_demo/module/settings/setting.dart';
 import 'package:flutter_router_demo/module/program/video.dart';
+import 'package:flutter_router_demo/module/settings/setting.dart';
+import 'package:flutter_router_demo/module/standings/pages/standings_page.dart';
 import 'package:flutter_router_demo/widget/video_player.dart';
 import 'package:flutter_router_demo/widget/webview.dart';
 
@@ -16,6 +17,7 @@ class Routers {
   static String game = "/main/game";
   static String video = "/main/video";
   static String setting = "/main/setting";
+  static String standings = "/main/standings";
   static String detail = "/detail";
   static String webView = "/webView";
   static String videoPlayer = "/videoPlayer";
@@ -34,6 +36,7 @@ class Routers {
     _router.define(game, handler: _gameHandler);
     _router.define(video, handler: _videoHandler);
     _router.define(setting, handler: _settingHandler);
+    _router.define(standings, handler: _standingsHandler);
     _router.define(detail, handler: _detailHandler);
     _router.define(webView, handler: _webViewHandler);
     _router.define(videoPlayer, handler: _videoPlayerHandler);
@@ -85,6 +88,10 @@ Handler get _videoHandler => Handler(handlerFunc: (_, Map<String, List<String>> 
 
 Handler get _settingHandler => Handler(handlerFunc: (_, Map<String, List<String>> parameters) {
       return const SettingPage();
+    });
+
+Handler get _standingsHandler => Handler(handlerFunc: (_, Map<String, List<String>> parameters) {
+      return const StandingsPage();
     });
 
 Handler get _detailHandler => Handler(handlerFunc: (_, Map<String, List<String>> parameters) {
