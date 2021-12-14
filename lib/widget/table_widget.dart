@@ -13,22 +13,47 @@ typedef ItemWidgetBuilder = Widget Function(BuildContext context, int row, int c
 /// rowSize: 6
 /// columnSize: 5
 class TableWidget extends StatefulWidget {
-  const TableWidget.itemBuilder({
+  const TableWidget.builder({
     Key? key,
     required this.rowSize,
-    required this.rowHeight,
     required this.columnSize,
-    required this.columnWidth,
+    required this.itemHeight,
+    required this.itemWidth,
+    this.tableView,
     required this.itemBuilder,
-    this.rowLabelBuilder,
-  }) : super(key: key);
+    this.labelBuilder,
+  })  : rowLabelWidth = itemWidth,
+        rowLabelHeight = itemHeight,
+        columnLabelWidth = itemWidth,
+        columnLabelHeight = itemHeight,
+        super(key: key);
+
+  const TableWidget.labelBuilder({
+    Key? key,
+    required this.rowSize,
+    required this.columnSize,
+    required this.rowLabelWidth,
+    required this.rowLabelHeight,
+    required this.columnLabelWidth,
+    required this.columnLabelHeight,
+    this.tableView,
+    required this.itemBuilder,
+    this.labelBuilder,
+  })  : itemWidth = rowLabelWidth,
+        itemHeight = columnLabelHeight,
+        super(key: key);
 
   final int rowSize;
-  final double rowHeight;
   final int columnSize;
-  final double columnWidth;
+  final double itemWidth;
+  final double itemHeight;
+  final double rowLabelWidth;
+  final double rowLabelHeight;
+  final double columnLabelWidth;
+  final double columnLabelHeight;
+  final Widget? tableView;
   final ItemWidgetBuilder itemBuilder;
-  final ItemWidgetBuilder? rowLabelBuilder;
+  final ItemWidgetBuilder? labelBuilder;
 
   @override
   State<TableWidget> createState() => _TableWidgetState();
@@ -42,46 +67,68 @@ class _TableWidgetState extends State<TableWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final hasRowLabel = widget.rowLabelBuilder != null;
-    if (hasRowLabel) {
-      return _buildRowLabel();
-    } else {
-      return _buildTable();
-    }
-  }
-
-  Widget _buildRowLabel() {
-    ScrollController scrollController = ScrollController();
+    final ScrollController horScrollController = ScrollController();
+    final ScrollController verScrollController = ScrollController();
     return NotificationListener(
       onNotification: (ScrollNotification notification) {
         Log.i("onNotification: ${notification.metrics.axisDirection}");
-        final handled = isHorizontalScrolling(notification.metrics.axisDirection);
-        if (handled && notification is ScrollUpdateNotification) {
-          scrollController.jumpTo(notification.metrics.pixels);
+        if (isHorizontalScrolling(notification.metrics.axisDirection) && notification is ScrollUpdateNotification) {
+          horScrollController.jumpTo(notification.metrics.pixels);
+        } else if (isVerticalScrolling(notification.metrics.axisDirection) &&
+            notification is ScrollUpdateNotification) {
+          verScrollController.jumpTo(notification.metrics.pixels);
         }
-        return handled;
+        return false;
       },
-      child: Column(
+      child: Row(
         children: [
-          SizedBox(
-              height: widget.rowHeight,
-              child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  physics: const NeverScrollableScrollPhysics(),
-                  controller: scrollController,
-                  itemExtent: widget.columnWidth,
-                  itemCount: widget.rowSize,
-                  itemBuilder: (context, columnIndex) {
-                    return SizedBox(
-                      width: widget.columnWidth,
-                      height: widget.rowHeight,
-                      child: widget.rowLabelBuilder!(context, -1, columnIndex),
-                    );
-                  })),
-          Expanded(child: _buildTable()),
+          Column(
+            children: [
+              SizedBox(
+                width: widget.columnLabelWidth,
+                height: widget.rowLabelHeight,
+                child: widget.tableView,
+              ),
+              Expanded(child: _buildColumnLabel(verScrollController)),
+            ],
+          ),
+          Expanded(
+            child: Column(
+              children: [
+                _buildRowLabel(horScrollController),
+                Expanded(child: _buildTable()),
+              ],
+            ),
+          ),
         ],
       ),
     );
+  }
+
+  Widget _buildRowLabel(ScrollController scrollController) {
+    return SizedBox(
+      height: widget.rowLabelHeight,
+      child: ListView.builder(
+          scrollDirection: Axis.horizontal,
+          physics: const NeverScrollableScrollPhysics(),
+          controller: scrollController,
+          itemExtent: widget.rowLabelWidth,
+          itemCount: widget.rowSize,
+          itemBuilder: (context, columnIndex) => widget.labelBuilder!(context, -1, columnIndex)),
+    );
+  }
+
+  Widget _buildColumnLabel(ScrollController scrollController) {
+    return SizedBox(
+        width: widget.columnLabelWidth,
+        child: ListView.builder(
+          scrollDirection: Axis.vertical,
+          physics: const NeverScrollableScrollPhysics(),
+          controller: scrollController,
+          itemExtent: widget.columnLabelHeight,
+          itemCount: widget.columnSize,
+          itemBuilder: (context, rowIndex) => widget.labelBuilder!(context, rowIndex, -1),
+        ));
   }
 
   bool isHorizontalScrolling(AxisDirection axis) => axis == AxisDirection.left || axis == AxisDirection.right;
@@ -92,7 +139,7 @@ class _TableWidgetState extends State<TableWidget> {
     return ListView.builder(
       scrollDirection: Axis.vertical,
       controller: null,
-      itemExtent: widget.rowHeight,
+      itemExtent: widget.itemHeight,
       itemCount: widget.columnSize,
       itemBuilder: (context, rowIndex) {
         final ScrollController controller = ScrollController(initialScrollOffset: currentPosition);
@@ -110,8 +157,8 @@ class _TableWidgetState extends State<TableWidget> {
           },
           child: _Row(
             rowIndex,
-            widget.columnWidth,
-            widget.rowHeight,
+            widget.itemWidth,
+            widget.itemHeight,
             widget.rowSize,
             widget.itemBuilder,
             controller,
