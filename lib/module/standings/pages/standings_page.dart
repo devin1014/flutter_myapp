@@ -82,53 +82,68 @@ class _StandingsPageState extends State<StandingsPage> {
   @override
   Widget build(BuildContext context) {
     //TODO: test code
-    return TableWidget.builder(
+    return TableWidget.itemBuilder(
       rowSize: 15,
-      rowHeight: 64,
+      rowHeight: 48,
       columnSize: 15,
       columnWidth: 64,
-      builder: (context, row, column) => Center(
+      itemBuilder: (context, row, column) => Center(
         child: Text("${row + 1}x${column + 1}"),
       ),
+      rowLabelBuilder: (context, row, column) => Container(
+        alignment: Alignment.center,
+        color: const Color(0xfff0f0f0),
+        child: Text("label ${column + 1}"),
+      ),
     );
-    // return Row(
-    //   children: [
-    //     SizedBox(
-    //       width: 140,
-    //       child: NotificationListener(
-    //         onNotification: _onLeftScrollNotification,
-    //         // child: CustomScrollView(
-    //         //   scrollDirection: Axis.vertical,
-    //         //   controller: leftController,
-    //         //   slivers: _buildPrimaryColumn([Colors.white, const Color(0xFFf6f6f6)]),
-    //         // ),
-    //         child: ListView.builder(
-    //             controller: leftController,
-    //             itemExtent: 36,
-    //             itemCount: columnTotalSize,
-    //             itemBuilder: (context, index) {
-    //               return Builder(builder: (context) {
-    //                 final colors = [Colors.white, const Color(0xFFf6f6f6)];
-    //                 return Container(
-    //                   height: 36,
-    //                   color: colors[index % 2],
-    //                   child: Center(child: Text(index.toString())),
-    //                 );
-    //               });
-    //             }),
-    //       ),
+    // return Row(children: [
+    //   SizedBox(
+    //     width: 140,
+    //     child: NotificationListener(
+    //       onNotification: _onLeftScrollNotification,
+    //       // child: CustomScrollView(
+    //       //   scrollDirection: Axis.vertical,
+    //       //   controller: leftController,
+    //       //   slivers: _buildPrimaryColumn([Colors.white, const Color(0xFFf6f6f6)]),
+    //       // ),
+    //       child: ListView.builder(
+    //           controller: leftController,
+    //           itemExtent: 36,
+    //           itemCount: columnTotalSize,
+    //           itemBuilder: (context, index) {
+    //             return Builder(builder: (context) {
+    //               final colors = [Colors.white, const Color(0xFFf6f6f6)];
+    //               return Container(
+    //                 height: 36,
+    //                 color: colors[index % 2],
+    //                 child: Center(child: Text(index.toString())),
+    //               );
+    //             });
+    //           }),
     //     ),
-    //     Expanded(
+    //   ),
+    //   Expanded(
     //       child: NotificationListener(
-    //         onNotification: _onRightScrollNotification,
-    //         child: CustomScrollView(
-    //           scrollDirection: Axis.vertical,
-    //           controller: rightController,
-    //           slivers: _buildSecondColumn([const Color(0xFFf6f6f6), Colors.white]),
-    //         ),
-    //       ),
+    //           onNotification: _onRightScrollNotification,
+    //           child: TableWidget.builder(
+    //               rowSize: 15,
+    //               rowHeight: 36,
+    //               columnSize: 50,
+    //               columnWidth: 64,
+    //               builder: (context, row, column) => Center(child: Text("$row x $column"))))),
+    // ]);
+    // Expanded(
+    //   child: NotificationListener(
+    //     onNotification: _onRightScrollNotification,
+    //     child: CustomScrollView(
+    //       scrollDirection: Axis.vertical,
+    //       controller: rightController,
+    //       slivers: _buildSecondColumn([const Color(0xFFf6f6f6), Colors.white]),
     //     ),
-    //   ],
+    //   ),
+    // ),
+    // ]
+    // ,
     // );
   }
 

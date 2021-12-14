@@ -1,22 +1,34 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_router_demo/util/logger.dart';
 
 typedef ItemWidgetBuilder = Widget Function(BuildContext context, int row, int column);
 
+/// * ——  ——  ——  ——  ——  ——  *
+/// | 1x1 1x2 1x3 1x4 1x5 1x6 |
+/// | 2x1 2x2 2x3 2x4 2x5 2x6 |
+/// | 3x1 3x2 3x3 3x4 3x5 3x6 |
+/// | 4x1 4x2 4x3 4x4 4x5 4x6 |
+/// | 5x1 5x2 5x3 5x4 5x5 5x6 |
+/// * ——  ——  ——  ——  ——  ——  *
+/// rowSize: 6
+/// columnSize: 5
 class TableWidget extends StatefulWidget {
-  const TableWidget.builder({
+  const TableWidget.itemBuilder({
     Key? key,
     required this.rowSize,
     required this.rowHeight,
     required this.columnSize,
     required this.columnWidth,
-    required this.builder,
+    required this.itemBuilder,
+    this.rowLabelBuilder,
   }) : super(key: key);
 
   final int rowSize;
   final double rowHeight;
   final int columnSize;
   final double columnWidth;
-  final ItemWidgetBuilder builder;
+  final ItemWidgetBuilder itemBuilder;
+  final ItemWidgetBuilder? rowLabelBuilder;
 
   @override
   State<TableWidget> createState() => _TableWidgetState();
@@ -30,6 +42,53 @@ class _TableWidgetState extends State<TableWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final hasRowLabel = widget.rowLabelBuilder != null;
+    if (hasRowLabel) {
+      return _buildRowLabel();
+    } else {
+      return _buildTable();
+    }
+  }
+
+  Widget _buildRowLabel() {
+    ScrollController scrollController = ScrollController();
+    return NotificationListener(
+      onNotification: (ScrollNotification notification) {
+        Log.i("onNotification: ${notification.metrics.axisDirection}");
+        final handled = isHorizontalScrolling(notification.metrics.axisDirection);
+        if (handled && notification is ScrollUpdateNotification) {
+          scrollController.jumpTo(notification.metrics.pixels);
+        }
+        return handled;
+      },
+      child: Column(
+        children: [
+          SizedBox(
+              height: widget.rowHeight,
+              child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  physics: const NeverScrollableScrollPhysics(),
+                  controller: scrollController,
+                  itemExtent: widget.columnWidth,
+                  itemCount: widget.rowSize,
+                  itemBuilder: (context, columnIndex) {
+                    return SizedBox(
+                      width: widget.columnWidth,
+                      height: widget.rowHeight,
+                      child: widget.rowLabelBuilder!(context, -1, columnIndex),
+                    );
+                  })),
+          Expanded(child: _buildTable()),
+        ],
+      ),
+    );
+  }
+
+  bool isHorizontalScrolling(AxisDirection axis) => axis == AxisDirection.left || axis == AxisDirection.right;
+
+  bool isVerticalScrolling(AxisDirection axis) => axis == AxisDirection.up || axis == AxisDirection.down;
+
+  Widget _buildTable() {
     return ListView.builder(
       scrollDirection: Axis.vertical,
       controller: null,
@@ -39,14 +98,7 @@ class _TableWidgetState extends State<TableWidget> {
         final ScrollController controller = ScrollController(initialScrollOffset: currentPosition);
         return NotificationListener(
           onNotification: (notification) {
-            if (notification is ScrollStartNotification) {
-              // Log.i("ScrollStartNotification: ${notification.metrics.pixels}");
-              // Log.i("ControllerManager: ${controllerManager.length}");
-            } else if (notification is ScrollEndNotification) {
-              // Log.i("ScrollEndNotification: ${notification.metrics.pixels}");
-              // Log.i("ControllerManager: ${controllerManager.length}");
-            } else if (notification is ScrollUpdateNotification) {
-              // Log.d("ScrollUpdateNotification: ${notification.metrics.pixels}");
+            if (notification is ScrollUpdateNotification) {
               currentPosition = notification.metrics.pixels;
               for (var _controller in controllerManager.values) {
                 if (_controller.offset != notification.metrics.pixels) {
@@ -61,8 +113,7 @@ class _TableWidgetState extends State<TableWidget> {
             widget.columnWidth,
             widget.rowHeight,
             widget.rowSize,
-            widget.builder,
-            controllerManager,
+            widget.itemBuilder,
             controller,
           ),
         );
@@ -77,8 +128,7 @@ class _Row extends StatefulWidget {
     this.itemWidth,
     this.itemHeight,
     this.itemCount,
-    this.builder,
-    this.controllerManager,
+    ItemWidgetBuilder this.builder,
     this.controller,
   );
 
@@ -86,9 +136,8 @@ class _Row extends StatefulWidget {
   final double itemWidth;
   final double itemHeight;
   final int itemCount;
-  final ItemWidgetBuilder builder;
+  final Function builder;
   final ScrollController controller;
-  final Map<int, ScrollController> controllerManager;
 
   @override
   State<StatefulWidget> createState() => _RowState();
@@ -100,12 +149,12 @@ class _RowState extends State<_Row> {
   @override
   void initState() {
     super.initState();
-    widget.controllerManager[widget.row] = widget.controller;
+    findTabletState(context).controllerManager[widget.row] = widget.controller;
   }
 
   @override
   void dispose() {
-    widget.controllerManager.remove(widget.row);
+    findTabletState(context).controllerManager.remove(widget.row);
     super.dispose();
   }
 
