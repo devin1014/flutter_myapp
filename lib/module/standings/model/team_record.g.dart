@@ -6,6 +6,14 @@ part of 'team_record.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+Map<String, dynamic> _$StandingsToJson(Standings instance) => <String, dynamic>{
+      '@LeagueID': instance.leagueID,
+      '@League': instance.league,
+      '@Season': instance.season,
+      '@SeasonType': instance.seasonType,
+      'teamRecords': instance.teamRecords.map((e) => e.toJson()).toList(),
+    };
+
 TeamRecord _$TeamRecordFromJson(Map<String, dynamic> json) => TeamRecord(
       json['@Conference'] as String? ?? '',
       json['@Division'] as String? ?? '',

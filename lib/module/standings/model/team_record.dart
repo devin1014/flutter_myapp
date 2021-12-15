@@ -35,6 +35,8 @@ class Standings {
     }
     return Standings(leagueID, league, season, seasonType, teamRecords);
   }
+
+  Map<String, dynamic> toJson() => _$StandingsToJson(this);
 }
 
 /// "@Conference": "Eastern Conference",
