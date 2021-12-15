@@ -190,30 +190,26 @@ class _Row extends StatefulWidget {
 
 class _RowState extends State<_Row> {
   bool scrolling = false;
+  _TableWidgetState? _tableWidgetState;
 
   @override
   void initState() {
     super.initState();
-    findTabletState(context).controllerManager[widget.row] = widget.controller;
+    _tableWidgetState ??= findTabletState(context);
+    _tableWidgetState?.controllerManager[widget.row] = widget.controller;
   }
 
   @override
   void dispose() {
-    findTabletState(context).controllerManager.remove(widget.row);
+    _tableWidgetState?.controllerManager.remove(widget.row);
     super.dispose();
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
   }
 
   @override
   Widget build(BuildContext context) {
     return NotificationListener(
       onNotification: (notification) {
-        //FIXME: this code hus bug!
-        final state = findTabletState(context);
+        final state = _tableWidgetState!;
         bool notifyParent = (!state.scrolling && !scrolling) || (state.scrolling && scrolling);
         if (notification is ScrollStartNotification && !state.scrolling && !scrolling) {
           scrolling = true;

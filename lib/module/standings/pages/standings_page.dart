@@ -54,16 +54,20 @@ class _StandingsPageState extends State<StandingsPage> {
         color: const Color(0xfff0f0f0),
         child: Builder(builder: (context) {
           if (row == -1) {
-            return Text(rowTitle[column]);
+            return FittedBox(
+              child: Text(rowTitle[column], softWrap: true, maxLines: 2, textAlign: TextAlign.center),
+            );
           } else {
-            return Text(standings!.teamRecords[row].teamAbr);
+            return FittedBox(
+              child: Text(standings!.teamRecords[row].teamAbr),
+            );
           }
         }),
       ),
     );
   }
 
-  static const rowTitle = ["胜", "负", "胜率", "胜差", "分区", "分组", "主场", "客场", "过去10场战绩", "连续记录"];
+  static const rowTitle = ["胜", "负", "胜率", "胜差", "分区", "分组", "主场", "客场", "过去10场\n战绩", "连续记录"];
 }
 
 extension TeamRecordValue on TeamRecord {
