@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_router_demo/util/logger.dart';
 
 typedef ItemWidgetBuilder = Widget Function(BuildContext context, int row, int column);
 
@@ -71,7 +70,6 @@ class _TableWidgetState extends State<TableWidget> {
     final ScrollController verScrollController = ScrollController();
     return NotificationListener(
       onNotification: (ScrollNotification notification) {
-        Log.i("onNotification: ${notification.metrics.axisDirection}");
         if (isHorizontalScrolling(notification.metrics.axisDirection) && notification is ScrollUpdateNotification) {
           horScrollController.jumpTo(notification.metrics.pixels);
         } else if (isVerticalScrolling(notification.metrics.axisDirection) &&
@@ -206,9 +204,15 @@ class _RowState extends State<_Row> {
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return NotificationListener(
       onNotification: (notification) {
+        //FIXME: this code hus bug!
         final state = findTabletState(context);
         bool notifyParent = (!state.scrolling && !scrolling) || (state.scrolling && scrolling);
         if (notification is ScrollStartNotification && !state.scrolling && !scrolling) {
