@@ -46,6 +46,7 @@ class _StandingsPageState extends State<StandingsPage> {
       rowLabelHeight: 36,
       columnLabelWidth: 140,
       columnLabelHeight: 36,
+      supportMainCrossScrolling: false,
       itemBuilder: (context, row, column) => Center(
         child: Text(standings!.teamRecords[row].getValue(column)),
       ),

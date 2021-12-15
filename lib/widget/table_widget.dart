@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_router_demo/widget/scroll_detector.dart';
 
 typedef ItemWidgetBuilder = Widget Function(BuildContext context, int row, int column);
 
@@ -18,6 +19,7 @@ class TableWidget extends StatefulWidget {
     required this.columnSize,
     required this.itemHeight,
     required this.itemWidth,
+    this.supportMainCrossScrolling = false,
     this.tableView,
     required this.itemBuilder,
     this.labelBuilder,
@@ -35,6 +37,7 @@ class TableWidget extends StatefulWidget {
     required this.rowLabelHeight,
     required this.columnLabelWidth,
     required this.columnLabelHeight,
+    this.supportMainCrossScrolling = false,
     this.tableView,
     required this.itemBuilder,
     this.labelBuilder,
@@ -50,6 +53,7 @@ class TableWidget extends StatefulWidget {
   final double rowLabelHeight;
   final double columnLabelWidth;
   final double columnLabelHeight;
+  final bool supportMainCrossScrolling;
   final Widget? tableView;
   final ItemWidgetBuilder itemBuilder;
   final ItemWidgetBuilder? labelBuilder;
@@ -94,7 +98,34 @@ class _TableWidgetState extends State<TableWidget> {
             child: Column(
               children: [
                 _buildRowLabel(horScrollController),
-                Expanded(child: _buildTable()),
+                Expanded(child: Builder(builder: (context) {
+                  if (widget.supportMainCrossScrolling) {
+                    ScrollController mainAxisController = ScrollController();
+                    return ScrollDetector(
+                      deltaListener: (deltaX, deltaY) {
+                        final offsetY = mainAxisController.offset - deltaY;
+                        if (offsetY != mainAxisController.offset &&
+                            offsetY >= mainAxisController.position.minScrollExtent &&
+                            offsetY <= mainAxisController.position.maxScrollExtent) {
+                          mainAxisController.jumpTo(offsetY);
+                        }
+                        final crossAxisController = controllerManager[controllerManager.length / 2];
+                        if (crossAxisController != null) {
+                          final offsetX = crossAxisController.offset - deltaX;
+                          if (offsetX != crossAxisController.offset &&
+                              offsetX >= crossAxisController.position.minScrollExtent &&
+                              offsetX <= crossAxisController.position.maxScrollExtent) {
+                            crossAxisController.jumpTo(offsetX);
+                          }
+                        }
+                      },
+                      child: _buildTable(
+                          physics: const NeverScrollableScrollPhysics(), mainAxisController: mainAxisController),
+                    );
+                  } else {
+                    return _buildTable();
+                  }
+                })),
               ],
             ),
           ),
@@ -133,14 +164,14 @@ class _TableWidgetState extends State<TableWidget> {
 
   bool isVerticalScrolling(AxisDirection axis) => axis == AxisDirection.up || axis == AxisDirection.down;
 
-  Widget _buildTable() {
+  Widget _buildTable({ScrollPhysics? physics, ScrollController? mainAxisController}) {
     return ListView.builder(
       scrollDirection: Axis.vertical,
-      controller: null,
+      physics: physics,
+      controller: mainAxisController,
       itemExtent: widget.itemHeight,
       itemCount: widget.columnSize,
       itemBuilder: (context, rowIndex) {
-        final ScrollController controller = ScrollController(initialScrollOffset: currentPosition);
         return NotificationListener(
           onNotification: (notification) {
             if (notification is ScrollUpdateNotification) {
@@ -159,7 +190,8 @@ class _TableWidgetState extends State<TableWidget> {
             widget.itemHeight,
             widget.rowSize,
             widget.itemBuilder,
-            controller,
+            physics,
+            ScrollController(initialScrollOffset: currentPosition),
           ),
         );
       },
@@ -174,6 +206,7 @@ class _Row extends StatefulWidget {
     this.itemHeight,
     this.itemCount,
     ItemWidgetBuilder this.builder,
+    this.physics,
     this.controller,
   );
 
@@ -182,6 +215,7 @@ class _Row extends StatefulWidget {
   final double itemHeight;
   final int itemCount;
   final Function builder;
+  final ScrollPhysics? physics;
   final ScrollController controller;
 
   @override
@@ -222,6 +256,7 @@ class _RowState extends State<_Row> {
       },
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
+        physics: widget.physics,
         controller: widget.controller,
         itemExtent: widget.itemWidth,
         itemCount: widget.itemCount,
