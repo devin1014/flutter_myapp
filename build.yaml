@@ -1,8 +1,8 @@
 # https://juejin.cn/post/6844903967177064461#heading-6
 builders:
   #  languageBuilder:
-  #    import: "package:flutter_router_demo/language/language_builder.dart"
-  #    builder_factories: [ "languageBuilder" ]
+  #    import: "package:flutter_router_demo/language/builder.dart"
+  #    builder_factories: [ "languageD2DBuilder" ]
   #    build_extensions: { ".dart": [ ".g.part" ] }
   #    build_to: source
   #  auto_apply: root_package
@@ -12,15 +12,17 @@ builders:
   #    applies_builders: [ "source_gen|combining_builder" ]
 
   # 如何自定义参数？
-  textBuilder:
-    import: "package:flutter_router_demo/language/language_builder.dart"
-    builder_factories: [ "textBuilder" ]
+  # 如何自定义参数？
+  # 如何自定义参数？
+  languageBuilder:
+    import: "package:flutter_router_demo/language/builder.dart"
+    builder_factories: [ "json2DartBuilder" ]
     build_extensions: { ".json": [ ".g.dart" ] }
     build_to: source
     auto_apply: root_package
     defaults:
       generate_for:
-        - resources/**/default.json
+        - assets/language/default.json
 
 targets:
   $default:
