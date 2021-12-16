@@ -12,6 +12,7 @@ mixin $LanguageResource on LanguageLocalization {
 	String get mainTabHome => '__mainTabHome';
 	String get mainTabGame => '__mainTabGame';
 	String get mainTabVideo => '__mainTabVideo';
+	String get mainTabStandings => '__mainTabStandings';
 	String get mainTabSetting => '__mainTabSetting';
 	String get weekDayMonday => '__weekDayMonday';
 	String get weekDayTuesday => '__weekDayTuesday';

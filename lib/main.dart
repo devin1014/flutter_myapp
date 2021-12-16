@@ -3,6 +3,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_router_demo/global.dart';
 import 'package:flutter_router_demo/language/delegate.dart';
 import 'package:flutter_router_demo/module/game/pages/game_page.dart';
+import 'package:flutter_router_demo/module/program/video.dart';
 import 'package:flutter_router_demo/module/settings/setting.dart';
 import 'package:flutter_router_demo/module/standings/pages/standings_page.dart';
 import 'package:flutter_router_demo/routers.dart';
@@ -59,6 +60,7 @@ class _MainPageState extends State<MainPage> {
   final List<Widget> pages = [
     const HomePage(),
     const GamePage(),
+    const VideoPage(),
     const StandingsPage(),
     const SettingPage(),
   ];
@@ -94,10 +96,12 @@ class _MainPageState extends State<MainPage> {
     return Scaffold(
       appBar: AppBar(title: const Text("Flutter Demo")),
       bottomNavigationBar: BottomNavigationBar(
-        items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(icon: const Icon(Icons.home), label: MyLocalizations.of(context).mainTabHome),
+        items: [
+          BottomNavigationBarItem(icon: const Icon(Icons.home), label: MyLocalizations.of(context).mainTabHome,),
           BottomNavigationBarItem(icon: const Icon(Icons.gamepad), label: MyLocalizations.of(context).mainTabGame),
           BottomNavigationBarItem(icon: const Icon(Icons.video_call), label: MyLocalizations.of(context).mainTabVideo),
+          BottomNavigationBarItem(
+              icon: const Icon(Icons.stacked_bar_chart), label: MyLocalizations.of(context).mainTabStandings),
           BottomNavigationBarItem(icon: const Icon(Icons.settings), label: MyLocalizations.of(context).mainTabSetting),
         ],
         selectedItemColor: Colors.blue,

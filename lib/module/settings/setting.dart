@@ -1,8 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_router_demo/language/delegate.dart';
-import 'package:flutter_router_demo/pigeon.dart';
 
 class SettingPage extends StatefulWidget {
+  static const items = [
+    "收看直播赛事",
+    "球员",
+    "球队",
+    "NBA 75",
+    "统计数据",
+    "交易",
+    "重要日期",
+    "播放时间表",
+    "常见问题",
+    "隐私设定",
+    "隐私条款",
+  ];
+
   const SettingPage({Key? key}) : super(key: key);
 
   @override
@@ -10,43 +22,15 @@ class SettingPage extends StatefulWidget {
 }
 
 class _SettingPageState extends State<SettingPage> {
-  List<Book?>? list;
-
-  @override
-  void initState() {
-    super.initState();
-    // Future.sync(() async {
-    //   //TODO: memory leaks
-    //   final list = await _getBook();
-    //   setState(() {
-    //     this.list = list;
-    //   });
-    // });
-  }
-
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(6),
-            child: Text(Localizations.localeOf(context).toString()),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(6),
-            child: Text(MyLocalizations.of(context).getLanguage()),
-          ),
-          const SizedBox(height: 40),
-          Text(list == null ? "SettingPage" : "${list![0]} -> ${list!.length}"),
-        ],
+    return ListView.builder(
+      itemExtent: 56,
+      itemCount: SettingPage.items.length,
+      itemBuilder: (context, index) => InkWell(
+        onTap: () {},
+        child: ListTile(title: Text(SettingPage.items[index])),
       ),
     );
-  }
-
-  Future<List<Book?>> _getBook() async {
-    //TODO
-    await Future.delayed(const Duration(seconds: 2), () {});
-    return await BookApi().search("arg_key");
   }
 }
