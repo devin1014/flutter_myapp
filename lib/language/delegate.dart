@@ -1,6 +1,8 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_router_demo/language/resources/_key.g.dart';
 import 'package:flutter_router_demo/language/resources/en.g.dart';
+import 'package:flutter_router_demo/language/resources/zh_hans.g.dart';
+import 'package:flutter_router_demo/language/resources/zh_hant.g.dart';
 
 class MyLocalizations extends LanguageLocalization with $LanguageResource {
   static $LanguageResource of(BuildContext context) {
@@ -28,7 +30,17 @@ class LanguageLocalizationsDelegate extends LocalizationsDelegate<LanguageLocali
 
   @override
   Future<LanguageLocalization> load(Locale locale) async {
-    //TODO:
+    if (locale.languageCode.equals("ZH")) {
+      if ('Hant'.equals(locale.scriptCode)) {
+        return $LanguageResourceZH_HANT();
+      } else {
+        return $LanguageResourceZH_HANS();
+      }
+    }
     return $LanguageResourceEN();
   }
+}
+
+extension StringEqual on String {
+  bool equals(String? str) => toLowerCase() == str?.toLowerCase();
 }

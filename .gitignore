@@ -45,3 +45,5 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 /backup/
+/lib/language/resources/*.key
+/lib/language/resources/*.json
