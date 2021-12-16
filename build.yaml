@@ -22,7 +22,7 @@ builders:
     auto_apply: root_package
     defaults:
       generate_for:
-        - assets/language/default.json
+        - assets/language/en.json
 
 targets:
   $default:

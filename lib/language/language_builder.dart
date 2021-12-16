@@ -1,12 +1,13 @@
 import 'dart:convert';
 
 import 'package:build/build.dart';
+import 'package:path/path.dart' as path;
 
 /// ---------------------------------------------------------------
 /// ---- text builder
 /// ---------------------------------------------------------------
 class LanguageBuilder implements Builder {
-  LanguageBuilder(this.options);
+  const LanguageBuilder(this.options);
 
   final BuilderOptions options;
   static const defaultOutputPath = "lib/language.g.dart";
@@ -20,32 +21,35 @@ class LanguageBuilder implements Builder {
   @override
   Future<void> build(BuildStep buildStep) async {
     //inputId: flutter_router_demo|assets/language/default.json
-    print("************************************");
+    print("""
+      ****************************************************
+      **** build
+      ****************************************************
+    """);
     if (options.config.isNotEmpty) {
       print("options: ${options.config}");
     }
     final inputId = buildStep.inputId;
-    final outputPath = options.config['output'] ?? defaultOutputPath;
+    final name = path.basenameWithoutExtension(inputId.path);
+    final outputPath = options.config['output'] ?? defaultOutputPath.replaceFirst("*", name);
     //inputId.path.replaceFirst(inputId.extension, _extensions[inputId.extension]!.first)
     final outputId = AssetId(inputId.package, outputPath);
 
+    final fileName = "\$LanguageResource_$name";
     final Map<String, dynamic> messages = json.decode(await buildStep.readAsString(inputId));
     final buffer = StringBuffer();
-    _buildExplainInfo(buffer, inputId.toString(), messages.length);
-    buffer.writeln("abstract class \$LanguageResource {");
-    buffer.writeln("\t\$LanguageResource(this._json);\n");
-    buffer.writeln("\tfinal Map<String, dynamic> _json;");
+    buffer.writeln("""
+import 'package:${buildStep.inputId.package}/language/delegate.dart';
+/// Generated, do not edit
+/// Source: ${inputId.toString()}
+/// Date: ${DateTime.now()}
+/// Size: ${messages.length}
+class $fileName with LanguageLocalization {
+""");
     messages.forEach((key, value) {
-      buffer.writeln('\n\tString get $key => _json[\'$key\'] ?? \'__$key\';');
+      buffer.writeln('\tString get $key => \'$value\';');
     });
     buffer.writeln("}");
     await buildStep.writeAsString(outputId, buffer.toString());
-  }
-
-  void _buildExplainInfo(StringBuffer buffer, String inputPath, int fieldSize) {
-    buffer.writeln("/// Generated, do not edit");
-    buffer.writeln("/// Source: $inputPath");
-    buffer.writeln("/// Date: ${DateTime.now()}");
-    buffer.writeln("/// Size: $fieldSize");
   }
 }

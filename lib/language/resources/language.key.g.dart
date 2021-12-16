@@ -1,12 +1,10 @@
 import 'package:flutter_router_demo/language/delegate.dart';
-import 'package:flutter_router_demo/language/resources/language.key.g.dart';
 /// Generated, do not edit
 /// Source: flutter_router_demo|assets/language/en.json
 /// Date: 2021-12-15 18:26:25.926002
 /// Size: 28
-class $LanguageEn extends MyLocalizations with $LanguageResource {
-  @override
-  String get name => 'en';
+mixin $LanguageResource on LanguageLocalization {
+	String get name => 'name';
 	String get title => 'title';
 	String get description => 'description';
 	String get author => 'author';
