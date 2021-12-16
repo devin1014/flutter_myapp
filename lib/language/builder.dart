@@ -6,4 +6,6 @@ import 'language_builder.dart';
 
 Builder dart2DartBuilder(BuilderOptions options) => LibraryBuilder(MultipleLanguageGenerator());
 
-Builder json2DartBuilder(BuilderOptions options) => LanguageBuilder(options);
+Builder languageResBuilder(BuilderOptions options) => LanguageResBuilder(options);
+
+Builder languageKeyBuilder(BuilderOptions options) => LanguageKeyBuilder(options);

@@ -1,9 +1,9 @@
 import 'package:flutter/widgets.dart';
-import 'package:flutter_router_demo/language.g.dart';
-import 'package:flutter_router_demo/language/resources/language.key.g.dart';
+import 'package:flutter_router_demo/language/resources/_key.g.dart';
+import 'package:flutter_router_demo/language/resources/en.g.dart';
 
 class MyLocalizations extends LanguageLocalization with $LanguageResource {
-  static MyLocalizations of(BuildContext context) {
+  static $LanguageResource of(BuildContext context) {
     return Localizations.of(context, LanguageLocalization);
   }
 }
@@ -29,6 +29,6 @@ class LanguageLocalizationsDelegate extends LocalizationsDelegate<LanguageLocali
   @override
   Future<LanguageLocalization> load(Locale locale) async {
     //TODO:
-    return $LanguageEn();
+    return $LanguageResourceEN();
   }
 }

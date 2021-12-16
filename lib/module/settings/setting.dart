@@ -35,7 +35,7 @@ class _SettingPageState extends State<SettingPage> {
           ),
           Padding(
             padding: const EdgeInsets.all(6),
-            child: Text(MyLocalizations.of(context).name),
+            child: Text(MyLocalizations.of(context).getLanguage()),
           ),
           const SizedBox(height: 40),
           Text(list == null ? "SettingPage" : "${list![0]} -> ${list!.length}"),

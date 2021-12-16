@@ -11,18 +11,29 @@ builders:
   #        - lib/language/**
   #    applies_builders: [ "source_gen|combining_builder" ]
 
-  # 如何自定义参数？
-  # 如何自定义参数？
-  # 如何自定义参数？
-  languageBuilder:
+  #TODO: 如何自定义参数？Option.config!
+  languageKeyBuilder:
     import: "package:flutter_router_demo/language/builder.dart"
-    builder_factories: [ "json2DartBuilder" ]
-    build_extensions: { ".json": [ ".g.dart" ] }
+    builder_factories: [ "languageKeyBuilder" ]
+    build_extensions: { ".key": [ ".g.dart" ] }
     build_to: source
     auto_apply: root_package
     defaults:
       generate_for:
-        - assets/language/en.json
+        - lib/language/resources/*.key
+
+  #TODO: 如何自定义参数？Option.config!
+  #[builder_factories, import, build_extensions, target, auto_apply, required_inputs, runs_before, applies_builders, is_optional, build_to, defaults]
+  languageResBuilder:
+    import: "package:flutter_router_demo/language/builder.dart"
+    builder_factories: [ "languageResBuilder" ]
+    build_extensions: { ".json": [ ".g.dart" ] }
+    build_to: source
+    auto_apply: root_package
+    applies_builders: [ "languageKeyBuilder" ]
+    defaults:
+      generate_for:
+        - lib/language/resources/*.json
 
 targets:
   $default:
@@ -39,4 +50,4 @@ targets:
       - "pubspec.yaml"
       - "pubspec.lock"
       # Project: custom src direction
-      - "assets/language/**"
+#      - "assets/language/**"
