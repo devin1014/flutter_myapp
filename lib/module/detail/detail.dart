@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_router_demo/util/logger.dart';
 import 'package:provider/provider.dart';
+import 'package:video_player/video_player.dart';
 
 class DetailPage extends StatefulWidget {
   const DetailPage({Key? key}) : super(key: key);
@@ -17,9 +18,6 @@ class _DetailPageState extends State<DetailPage> {
   void initState() {
     super.initState();
     scrollController.addListener(_onScrollChanged);
-    Future.delayed(const Duration(seconds: 5), () {
-      anchorViewNotifier.value = true;
-    });
   }
 
   @override
@@ -52,17 +50,12 @@ class _DetailPageState extends State<DetailPage> {
                 return [
                   SliverOverlapAbsorber(
                     handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
-                    sliver: SliverAppBar(
+                    sliver: const SliverAppBar(
                       pinned: true,
-                      title: const Text("Detail"),
+                      title: Text("Detail"),
                       expandedHeight: 220,
                       flexibleSpace: FlexibleSpaceBar(
-                        background: Container(
-                            width: double.infinity,
-                            color: Colors.black,
-                            child: const Center(
-                              child: Icon(Icons.play_circle_outline, color: Colors.white, size: 64),
-                            )),
+                        background: VideoPlayerHolder(),
                       ),
                     ),
                   )
@@ -116,6 +109,71 @@ class _DetailPageState extends State<DetailPage> {
           ],
         ),
       ),
+    );
+  }
+}
+
+class VideoPlayerHolder extends StatefulWidget {
+  static const videoUrl = "http://mirror.aarnet.edu.au/pub/TED-talks/911Mothers_2010W-480p.mp4";
+
+  const VideoPlayerHolder({Key? key}) : super(key: key);
+
+  @override
+  State<StatefulWidget> createState() => _VideoPlayerHolderState();
+}
+
+class _VideoPlayerHolderState extends State<VideoPlayerHolder> {
+  VideoPlayerController? _controller;
+  Future<void>? _initializeVideoPlayerFuture;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _controller?.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (_controller == null) {
+      return Container(
+        width: double.infinity,
+        color: Colors.black,
+        alignment: Alignment.center,
+        padding: const EdgeInsets.only(top: 36),
+        child: InkWell(
+            onTap: () {
+              setState(() {
+                final controller = VideoPlayerController.network(VideoPlayerHolder.videoUrl);
+                _controller = controller;
+                _initializeVideoPlayerFuture = controller.initialize();
+              });
+            },
+            child: const Icon(Icons.play_circle_outline, color: Colors.white, size: 64)),
+      );
+    }
+    return FutureBuilder(
+      future: _initializeVideoPlayerFuture,
+      builder: (context, snapshot) {
+        Log.i("videoPlayer connectionState: ${snapshot.connectionState}");
+        if (snapshot.connectionState == ConnectionState.done) {
+          _controller!.play();
+          return AspectRatio(
+            aspectRatio: _controller!.value.aspectRatio,
+            child: VideoPlayer(_controller!),
+          );
+        } else {
+          return Container(
+            color: Colors.black,
+            alignment: Alignment.center,
+            child: const CircularProgressIndicator(),
+          );
+        }
+      },
     );
   }
 }
