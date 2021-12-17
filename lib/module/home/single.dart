@@ -1,7 +1,7 @@
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_router_demo/module/home/home.dart';
-import 'package:flutter_router_demo/routers.dart';
+import 'package:flutter_router_demo/router/routers.dart';
 
 import 'model/carousel.dart';
 import 'model/root.dart';
@@ -41,11 +41,7 @@ class _HomeSingleState extends State<HomeSinglePage> {
         child: InkWell(
           onTap: () {
             if (carousel is LinkCarousel) {
-              Routers.router.navigateTo(
-                context,
-                Routers.webView,
-                routeSettings: RouteSettings(arguments: carousel.link),
-              );
+              Routers.navigateTo(context, path: Routers.webView, query: "url=${carousel.link}");
             }
           },
           child: Stack(

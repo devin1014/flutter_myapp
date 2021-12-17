@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_router_demo/routers.dart';
+import 'package:flutter_router_demo/router/routers.dart';
 
 import 'model/carousel.dart';
 import 'model/root.dart';
@@ -31,11 +31,7 @@ class _HomeNewsState extends State<HomeNewsPage> {
           return InkWell(
             onTap: () {
               if (list[index] is LinkCarousel) {
-                Routers.router.navigateTo(
-                  context,
-                  Routers.webView,
-                  routeSettings: RouteSettings(arguments: list[index].link),
-                );
+                Routers.navigateTo(context, path: Routers.webView, query: "url=${list[index].link}");
               }
             },
             child: SizedBox(

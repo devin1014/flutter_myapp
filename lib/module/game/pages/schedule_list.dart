@@ -4,7 +4,7 @@ import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_router_demo/common/http/http.dart';
 import 'package:flutter_router_demo/module/game/model/model.dart';
-import 'package:flutter_router_demo/routers.dart';
+import 'package:flutter_router_demo/router/routers.dart';
 import 'package:flutter_router_demo/util/date.dart';
 import 'package:flutter_router_demo/util/image.dart';
 import 'package:flutter_router_demo/util/util.dart';
@@ -104,7 +104,7 @@ class _SchedulePageState extends State<SchedulePage> {
         itemBuilder: (context, index) {
           return InkWell(
             onTap: () {
-              Routers.navigateTo(context, Routers.detail);
+              Routers.navigateTo(context, path: Routers.detail, query: "param1={key1:value1},{key2:value2}&param2=b");
             },
             child: _buildItem(list[index]),
           );

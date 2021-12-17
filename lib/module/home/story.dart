@@ -1,7 +1,7 @@
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_router_demo/module/home/model/model.dart';
-import 'package:flutter_router_demo/routers.dart';
+import 'package:flutter_router_demo/router/routers.dart';
 import 'package:flutter_router_demo/util/image.dart';
 import 'package:flutter_router_demo/util/parser.dart';
 import 'package:flutter_router_demo/widget/horizontal_list_view.dart';
@@ -70,7 +70,7 @@ class _HomeStoryPageState extends State<HomeStoryPage> {
             InkWell(
               onTap: () {
                 Fluttertoast.showToast(msg: "click: ${story.name}");
-                Routers.router.navigateTo(context, Routers.videoPlayer);
+                Routers.navigateTo(context, path: Routers.detail);
               },
               child: const SizedBox.expand(),
             )

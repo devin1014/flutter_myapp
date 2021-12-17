@@ -2,7 +2,7 @@ import 'package:extended_image/extended_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_router_demo/module/home/model/carousel.dart';
-import 'package:flutter_router_demo/routers.dart';
+import 'package:flutter_router_demo/router/routers.dart';
 import 'package:flutter_router_demo/widget/horizontal_list_view.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -41,13 +41,9 @@ class _HomeContentPageState extends State<HomeContentPage> {
               onTap: () {
                 Fluttertoast.showToast(msg: "tap: $index");
                 if (list[index] is LinkCarousel) {
-                  Routers.router.navigateTo(
-                    context,
-                    Routers.webView,
-                    routeSettings: RouteSettings(arguments: list[index].link),
-                  );
+                  Routers.navigateTo(context, path: Routers.webView, query: "url=${list[index].link}");
                 } else {
-                  Routers.router.navigateTo(context, Routers.videoPlayer);
+                  Routers.navigateTo(context, path: Routers.detail);
                 }
               },
               child: _buildHomeContent(list[index]),

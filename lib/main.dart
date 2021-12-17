@@ -6,7 +6,7 @@ import 'package:flutter_router_demo/module/game/pages/game_page.dart';
 import 'package:flutter_router_demo/module/program/video.dart';
 import 'package:flutter_router_demo/module/settings/setting.dart';
 import 'package:flutter_router_demo/module/standings/pages/standings_page.dart';
-import 'package:flutter_router_demo/routers.dart';
+import 'package:flutter_router_demo/router/routers.dart';
 import 'package:flutter_router_demo/util/logger.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:permission_handler/permission_handler.dart';
