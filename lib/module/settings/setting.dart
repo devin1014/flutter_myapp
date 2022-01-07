@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_router_demo/module/settings/setting_router.dart';
+import 'package:flutter_router_demo/router/routers.dart';
 
 class SettingPage extends StatefulWidget {
   static const items = [
@@ -28,7 +30,9 @@ class _SettingPageState extends State<SettingPage> {
       itemExtent: 56,
       itemCount: SettingPage.items.length,
       itemBuilder: (context, index) => InkWell(
-        onTap: () {},
+        onTap: () {
+          Routers.navigateTo(context, path: SettingRouter.theme);
+        },
         child: ListTile(title: Text(SettingPage.items[index])),
       ),
     );

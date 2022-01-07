@@ -5,6 +5,7 @@ import 'package:flutter_router_demo/module/detail/detail_router.dart';
 import 'package:flutter_router_demo/module/game/pages/game_page.dart';
 import 'package:flutter_router_demo/module/program/video.dart';
 import 'package:flutter_router_demo/module/settings/setting.dart';
+import 'package:flutter_router_demo/module/settings/setting_router.dart';
 import 'package:flutter_router_demo/module/standings/pages/standings_page.dart';
 import 'package:flutter_router_demo/module/webview/webview_router.dart';
 import 'package:flutter_router_demo/router/router_provider.dart';
@@ -40,6 +41,7 @@ class Routers {
 
     _routerProviders.add(DetailRouter());
     _routerProviders.add(WebViewRouter());
+    _routerProviders.add(SettingRouter());
 
     void initRouter(IRouterProvider provider) {
       provider.initRouter(router);
