@@ -4,6 +4,7 @@ import 'package:flutter_router_demo/router/routers.dart';
 
 class SettingPage extends StatefulWidget {
   static const items = [
+    "主题",
     "收看直播赛事",
     "球员",
     "球队",
@@ -15,6 +16,7 @@ class SettingPage extends StatefulWidget {
     "常见问题",
     "隐私设定",
     "隐私条款",
+    "测试",
   ];
 
   const SettingPage({Key? key}) : super(key: key);
@@ -31,7 +33,11 @@ class _SettingPageState extends State<SettingPage> {
       itemCount: SettingPage.items.length,
       itemBuilder: (context, index) => InkWell(
         onTap: () {
-          Routers.navigateTo(context, path: SettingRouter.theme);
+          if (index == 0) {
+            Routers.navigateTo(context, path: SettingRouter.theme);
+          } else if (index == SettingPage.items.length - 1) {
+            Routers.navigateTo(context, path: SettingRouter.testHttp);
+          }
         },
         child: ListTile(title: Text(SettingPage.items[index])),
       ),
